@@ -1,0 +1,63 @@
+<!doctype html>
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" id="ng-app" ng-app=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" id="ng-app" ng-app=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" ng-app> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Love Action Project</title>
+    <meta name="description" content="At Love Action Project, we advocate the concept of “having fun but never forget to give”. As much as we provide an avenue for individuals to give, we also encourage them to step forward to showcase their talents, and start a project with us. Our concept of charity is not just one that provides an avenue to give, but rather, we wish to plant the seeds of charity in our volunteers’ hearts, so that they can reap the benefits of giving, and paying it forward to the society.">
+    <meta name="viewport" content="width=device-width">
+
+    <meta name="og:title" content="Love Action Project"/>
+    <meta name="og:type" content="website"/>
+    <meta name="og:url" content="http://loveactionproject.com"/>
+    <meta name="og:image" content="http://loveactionproject.com/images/6ea5c653.logo.jpg"/>
+    <meta name="og:site_name" content="Love Action Project"/>
+    <meta name="og:description" content="At Love Action Project, we advocate the concept of “having fun but never forget to give”. As much as we provide an avenue for individuals to give, we also encourage them to step forward to showcase their talents, and start a project with us. Our concept of charity is not just one that provides an avenue to give, but rather, we wish to plant the seeds of charity in our volunteers’ hearts, so that they can reap the benefits of giving, and paying it forward to the society."/>
+
+    <meta name="fb:page_id" content="447520295320943" />
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css({.tmp,app}) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animation.css">
+    <link rel="stylesheet" href="styles/load.css">
+    <!-- endbuild -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+  </head>
+  <body ng-app="lapApp">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <div class="loading" ng-show="loading">Loading&#8230;</div>
+    <div ng-include="'views/nav.html'"></div>
+    <div ui-view autoscroll="true" class="main"></div>
+    <div ng-include="'views/footer.html'"></div>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <script>
+       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-39319903-1');
+       ga('send', 'pageview');
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <script src="bower_components/requirejs/require.js" data-main="scripts/main.js"></script>
+  </body>
+</html>

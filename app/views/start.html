@@ -1,0 +1,172 @@
+<div class="container">
+	<h2>Start a Project</h2>
+	<p class="lead text-muted">Three steps to get your project running.</p>
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+			<div class="well well-lg">
+				<h4><small class="text-muted">Step 1</small></h4>
+				<h3>About your Project</h3>
+				<form name="projectForm" ng-submit="submitProject()" novalidate>
+					<div class="alert {{alert.type}}" ng-show="alert.msg">{{alert.msg}}</div>
+					<div class="form-group">
+						<label class="control-label">*Project Name</label>
+						<input type="text" name="name" class="form-control" ng-model="project.name" ng-maxlength="50" required>
+						<span ng-show="projectForm.name.$error.required && projectForm.name.$dirty" class="label label-danger">Please enter a project name.</span>
+						<span ng-show="projectForm.name.$error.maxlength && projectForm.name.$dirty" class="label label-danger">The maximum number of characters project name is 50.</span>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label">*Project Location</label>
+						<input type="text" name="location" class="form-control" ng-model="project.location" ng-maxlength="100" required>
+						<span ng-show="projectForm.location.$error.required && projectForm.location.$dirty" class="label label-danger">Please enter a location.</span>
+						<span ng-show="projectForm.name.$error.maxlength && projectForm.name.$dirty" class="label label-danger">The maximum number of characters project location is 100.</span>
+					</div>
+
+					<div class="form-group well wel-sm well-white">
+						<label class="control-label">*Project Date / Time</label>
+						<p ng-show="project.date">Event starts <span am-time-ago="project.date"></span></p>
+						<p class="input-group">
+							<input type="text" name="date" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="project.date" is-open="opened" min-date="minDate" ng-required="true" close-text="Close"/>
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-default" ng-click="open($event)"><i class="fa fa-calendar"></i></button>
+							</span>
+							<span ng-show="projectForm.date.$error.required && projectForm.date.$dirty" class="label label-danger">Please choose a closing date for volunteers to sign up.</span>
+						</p>
+						<timepicker name="time" hour-step="1" minute-step="1" show-meridian="true" ng-model="project.date"></timepicker>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label">*Project Category</label>
+						<select class="form-control" ng-model="project.category">
+							<option value="Art">Art</option>
+							<option value="Animals">Animals</option>
+							<option value="Children">Children</option>
+							<option value="Elders">Elders</option>
+							<option value="Everyone">Everyone</option>
+							<option value="General">General</option>
+						</select> 
+					</div>
+
+					<div class="form-group">
+						<label class="control-label">*Project One Sentence Spill</label>
+						<textarea name="spill" class="form-control" rows="2" ng-model="project.spill" ng-maxlength="255" required></textarea>
+						<span ng-show="projectForm.spill.$error.required && projectForm.spill.$dirty" class="label label-danger">Please enter a One Sentence Spill for your Project.</span>
+						<span ng-show="projectForm.spill.$error.maxlength && projectForm.spill.$dirty" class="label label-danger">The maximum number of characters for your project spill is 255.</span>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label">*Description</label>
+						<text-angular name="description" ng-model="project.description" ng-maxlength="10000" required></text-angular>
+						<span ng-show="projectForm.description.$error.required && projectForm.description.$dirty" class="label label-danger">Please enter a description of your Project.</span>
+						<span ng-show="projectForm.description.$error.maxlength && projectForm.description.$dirty" class="label label-danger">The maximum number of characters for your project description is 10000.</span>
+					</div>
+
+					<hr>
+					<h3>Volunteers</h3>
+					<div class="form-group">
+						<label class="control-label">*Target <mark><span ng-hide="project.target">__</span> {{project.target}}</mark> Volunteers</label>
+						<div ng-show="project.target > 1">Project Level: 
+							<span class="label label-warning" ng-show="project.target > 200 && project.target <= 300">Awesomeness!</span>
+							<span class="label label-primary" ng-show="project.target > 100 && project.target <= 200">Greatness!</span>
+							<span class="label label-success" ng-show="project.target > 20 && project.target <= 100">Fantastic!</span>
+							<span class="label label-info" ng-show="project.target <= 20">That's a start!</span>
+							<span class="label label-warning" ng-show="project.target == 300">Creating a project that requires more than 300 volunteers? Select 300 and contact us separately.</span>
+						</div>
+						<input type="range" name="target" ng-model="project.target" min="1" max="300" required>
+						<span ng-show="projectForm.target.$error.required && projectForm.target.$dirty" class="label label-danger">Please set a target for number of volunteers.</span>
+						<span ng-show="projectForm.target.$error.number && projectForm.target.$dirty" class="label label-danger">Please enter a valid number.</span>
+						<span ng-show="projectForm.target.$error.max && projectForm.target.$dirty" class="label label-danger">Please enter a valid number.</span>
+						<span ng-show="projectForm.target.$error.max && projectForm.target.$dirty" class="label label-warning">Creating a project that requires more than 300 volunteers? Select 300 and contact us separately.</span>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label">*Close Volunteer Sign Up <mark><span ng-hide="project.deadline">__</span> {{project.deadline}} Days</mark> Before Event</label>
+						<input type="range" name="deadline" ng-model="project.deadline" min="3" max="30" required>
+						<span ng-show="projectForm.deadline.$error.required && projectForm.deadline.$dirty" class="label label-danger">Please choose a closing date for volunteers to sign up.</span>
+					</div>
+
+					<button type="submit" class="btn btn-success" ng-disabled="btnProject || projectForm.$invalid"><span class="glyphicon glyphicon-cloud-upload"></span> Start Project</button>
+				</form>
+			</div>
+
+			<div class="well well-lg">
+				<h4><small class="text-muted">Step 2</small></h4>
+				<h3>Project Banner Image</h3>
+				<form>
+					<div class="alert {{uploadAlert.type}}" ng-show="uploadAlert.msg">{{uploadAlert.msg}}</div>				
+					<div class="form-group">
+						<img class="thumbnail file-preview" ng-show="project.image" src="{{project.image}}" alt="">
+						<label for="upload">Project Image <small class="text-muted">(maximum size 1Mb)</small></label>
+						<input class="btn btn-success form-control visible-xs-block" type="file" name="upload" ng-disabled="btnFile" file-upload-project>
+						<input class="btn btn-success hidden-xs" type="file" name="upload" ng-disabled="btnFile" file-upload-project>
+					</div>
+				</form>
+			</div>
+
+			<div class="well well-lg">
+				<h4><small class="text-muted">Step 3</small></h4>
+				<h3>Contact Details</h3>
+				<p>The Love Action Project Team will attempt to contact you and verify the details of your project. Once we ensure that the project is legitimate, we will enable volunteers to sign up for your project. Your contact details will not be shared with the other volunteers. <small class="text-muted">(Your details will only be used solely for the running of this project. Please read our <a href="#/privacy" taget="_blank">Privacy Policy</a>.)</small></p>
+				<form name="contactForm" ng-submit="submitContact()" novalidate>
+					<div class="alert {{contactAlert.type}}" ng-show="contactAlert.msg">{{contactAlert.msg}}</div>
+					<div class="form-group">
+						<label class="control-label">Mobile Number*</label>
+						<input type="text" name="phone" class="form-control" ng-model="project.contact" ng-pattern="/^[89]\d{7}$/" required>
+						<span ng-show="contactForm.phone.$error.required && contactForm.phone.$dirty" class="label label-danger">Please enter a contact number.</span>
+						<span ng-show="contactForm.phone.$error.pattern && contactForm.phone.$dirty" class="label label-danger">Please enter a valid number.</span>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label">Email (if no email is provided, we will attempt to contact you via Facebook) </label>
+						<input type="email" name="email" class="form-control" ng-model="project.email" placeholder="{{currentUser.data.email}}"/>
+					</div>
+					<button type="submit" class="btn btn-success"  ng-disabled="btnContact"><span class="glyphicon glyphicon-phone-alt"></span> Submit Contact Details</button>
+				</form>
+			</div>
+		</div>
+		<div class="hidden-xs hidden-sm col-md-offset-8 col-md-3 col-lg-offset-8 col-lg-3 card card-fix">
+			<h1 ng-hide="project.image"><i class="fa fa-picture-o fa-5x"></i></h1>
+			<img ng-src="{{project.image}}" class="img-responsive" ng-show="project.image"/>
+			<h3>{{project.name}}</h3>
+			<p class="by"><a href="#/user/{{uid}}"><small>{{currentUser.username}}</small></a></p>
+			<p>{{project.spill}}</p>
+			<p>
+				<span class="text-muted"><i class="fa fa-tag"></i> {{project.category}} </span>
+				&nbsp&nbsp&nbsp            
+				<span class="text-muted"><span class="glyphicon glyphicon-map-marker"></span> {{project.location}} </span>
+				&nbsp&nbsp&nbsp            
+				<span class="text-muted"><i class="fa fa-calendar"></i> {{project.date | date}} </span>
+			</p>
+
+			<div class="row">
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+					<small class="text-muted">Subscription</small><br>
+					<strong>0%</strong>
+				</div>
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+					<small class="text-muted">Sign Up Closing</small><br>
+					<strong>{{project.deadline}} Days Before Event</strong>
+				</div>
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+					<small class="text-muted">Volunteers</small><br>
+					<strong>0 of {{project.target}}</strong>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/ng-template" id="login.html">
+		<div class="modal-header">
+			<h3 class="modal-title">Please sign in to Love Action Project</h3>
+		</div>
+		<div class="modal-body">
+			<h4>Starting a Project?</h4>
+			<p>Please sign in to Love Action Project to start a project. Signing in is as simple as clicking on the Facebook button and sign in with your Facebook account.</p>
+	    <p>Find out more on <a href="#/whyfb" target="_blank">why and how we use your Facebook credentials</a>.</p>
+			<div class="text-center">
+				<a href class="btn btn-sm btn-primary" ng-click="fbLogin()"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+		</div>
+	</script>

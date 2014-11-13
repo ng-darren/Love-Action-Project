@@ -1,0 +1,457 @@
+<div class="container">
+  <br>
+  <div class="col-xs-12 col-sm-12 hidden-md hidden-lg">
+    <div class="well well-sm">
+      <h4>{{project.name}}</h4>
+      <p class="by"><a href="#/user/{{project.uid}}"><small>{{project.createdBy}}</small></a></p>
+      <p>{{project.spill}}</p>
+      <p>
+        <span class="text-muted"><span class="glyphicon glyphicon-tag"></span> {{project.category}} </span>
+        &nbsp&nbsp&nbsp            
+        <span class="text-muted"><span class="glyphicon glyphicon-map-marker"></span> {{project.location}} </span>
+      </p>
+
+      <div class="animate">
+        <progressbar class="progress-striped active" value="project.percentage" type="success">{{project.volunteerCount}} / {{project.target}} volunteers</progressbar>
+      </div>
+
+      <h5>Volunteers</h5>
+      <div class="container">
+        <div class="row">
+          <div class="pull-left volunteer-facepile" ng-repeat="v in volunteerList | orderBy:'rank'" ng-hide="!v.item.image">
+            <a href="#/user/{{v.item.uid}}" tooltip="{{v.item.username}}"><img src="{{v.item.image}}"></a>
+          </div>
+        </div>
+      </div>
+      
+      <br><br>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <small class="text-muted">Subscription</small><br>           
+        <strong>{{project.percentage | number:0}}%</strong>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <small class="text-muted">Closing Date</small><br>
+        <strong am-time-ago="project.deadline"></strong>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <small class="text-muted">Event </small><br>
+        <strong ng-show"project.date">{{project.date | datetime}}</strong>
+      </div>
+      <br><br>
+      <div class="alert {{alert.type}}" ng-show="alert.msg">{{alert.msg}}</div>
+      <form name="volunteerForm" ng-submit="addVolunteer()" novalidate>
+        <div class="alert {{alert.type}}" ng-show="alert.msg">{{alert.msg}}</div>
+        <div class="form-group">
+          <label class="control-label">*Volunteer Role</label>
+          <select class="form-control" name="role" ng-model="role" required>
+            <option value="performer" disabled>Performer</option>
+          </select>
+          <span ng-show="volunteerForm.role.$error.required && volunteerForm.role.$dirty" class="label label-danger">Please choose a role for the project.</span>
+        </div>
+        <div class="form-group">
+          <label class="control-label">*T-shirt Size <small>(<a href="cas/tshirt.jpg" target="_blank">size chart</a>)</small></label>
+          <select class="form-control" name="size" ng-model="size" required>
+            <option value="xs">Extra Small</option>
+            <option value="s">Small</option>
+            <option value="m">Medium</option>
+            <option value="l">Large</option>
+            <option value="xl">Extra Large</option>
+          </select>
+          <span ng-show="volunteerForm.size.$error.required && volunteerForm.size.$dirty" class="label label-danger">Please choose a t-shirt size.</span>
+        </div>
+        <div class="form-group">
+					<label class="control-label">*Mobile Number</label>
+					<input type="text" class="form-control" name="contact" ng-model="contact" ng-pattern="/^[89]\d{7}$/" required>
+					<span ng-show="volunteerForm.contact.$error.required && volunteerForm.contact.$dirty" class="label label-danger">Please allow our volunteers to contact you to confirm your availabilty.</span>
+					<span ng-show="volunteerForm.contact.$error.pattern && volunteerForm.contact.$dirty" class="label label-danger">Please enter a valid number.</span>
+				</div>
+				<p><small class="text-muted">(Your details will only be used solely for the running of this project. Please read our <a href="#/privacy" taget="_blank">Privacy Policy</a>.)</small></p>
+        <div class="btn-volunteer"><a class="btn btn-block btn-lg btn-success" ng-disabled="disable || volunteerForm.$invalid" ng-click="addVolunteer()"><i class="fa fa-users"></i> I want to volunteer!</a></div>
+      </form>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 hidden-md hidden-lg well well-sm">
+      <h4>Get tickets!</h4>
+      <p>Like what you see? Support the local musicians and their selfless effort to raise awareness for Mental Health illness in Singapore. More importantly, all proceeds from the ticket sales goes to Singapore Association for Mental Health. So make a date with us!</p>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+      	<h2 style="border-radius:50%; color: #FFF; height:60px; width:60px; padding-top:15px" ng-style="stepOne">1</h2>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+      	<h2 style="border-radius:50%; color: #FFF; height:60px; width:60px; padding-top:15px" ng-style="stepTwo">2</h2>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+      	<h2 style="border-radius:50%; color: #FFF; height:60px; width:60px; padding-top:15px" ng-style="stepThree">3</h2>
+      </div>
+      <form name="ticketForm" ng-submit="buyTicket()" novalidate>
+      	<div class="alert {{donationalert.type}}" ng-show="donationalert.msg">{{donationalert.msg}}</div>
+        <div ng-show="showOne">
+        	<h3>Choose your Session</h3>
+        	<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+        		<h5>Day 1</h5>
+        		<div class="checkbox">
+	        		<label class="checkbox-inline">
+	        			<input type="checkbox" name="session" ng-model="session.one"> Dave Mathew's Band
+	        		</label>
+	        	</div>
+	        	<div class="checkbox">
+              <label class="checkbox-inline">
+              	<input type="checkbox" name="session" ng-model="session.two"> Rolling Stones
+              </label>
+            </div>
+            <div class="checkbox">
+							<label class="checkbox-inline">
+								<input type="checkbox" name="session" ng-model="session.three"> Metallica
+							</label>
+						</div>
+          </div>
+          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+        		<h5>Day 2</h5>
+        		<div class="checkbox">
+							<label class="checkbox-inline">
+								<input type="checkbox" name="session" ng-model="session.four"> GnR
+							</label>
+						</div>
+						<div class="checkbox">
+							<label class="checkbox-inline">
+								<input type="checkbox" name="session" ng-model="session.five"> Beetles
+							</label>
+						</div>
+        		<div class="checkbox">
+	        		<label class="checkbox-inline">
+	        			<input type="checkbox" name="session" ng-model="session.six"> Beyond
+	        		</label>
+	        	</div>
+	        	<div class="checkbox">
+              <label class="checkbox-inline">
+              	<input type="checkbox" name="session" ng-model="session.seven"> May Day
+              </label>
+            </div>
+            <div class="checkbox">
+							<label class="checkbox-inline">
+								<input type="checkbox" name="session" ng-model="session.eight"> SodaGreen
+							</label>
+						</div>
+          </div>
+          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+        		<h5>Day 3</h5>
+        		<div class="checkbox">
+							<label class="checkbox-inline">
+								<input type="checkbox" name="session" ng-model="session.nine"> Queen
+							</label>
+						</div>
+						<div class="checkbox">
+							<label class="checkbox-inline">
+								<input type="checkbox" name="session" ng-model="session.ten"> Led Zepplin
+							</label>
+						</div>
+        		<div class="checkbox">
+	        		<label class="checkbox-inline">
+	        			<input type="checkbox" name="session" ng-model="session.eleven"> Nirvana
+	        		</label>
+	        	</div>
+	        	<div class="checkbox">
+              <label class="checkbox-inline">
+              	<input type="checkbox" name="session" ng-model="session.twelve"> Red Hot Chilli Peppers
+              </label>
+            </div>
+            <div class="checkbox">
+							<label class="checkbox-inline">
+								<input type="checkbox" name="session" ng-model="session.thirteen"> U2
+							</label>
+						</div>
+          </div>			
+          <span ng-show="session.length==0 && ticketForm.session.$dirty" class="label label-danger">Please choose a role for the project.</span>
+        </div>
+        <div ng-show="showTwo">
+        	<h3>Choose your Seats</h3>
+        	<div class="form-group">
+            <label class="control-label">Type</label>
+            <select class="form-control" name="type" ng-model="type" required>
+	        		<option value="stand">$10 - Standing</option>
+	        		<option value="seat">$15 - Individual Seats</option>
+	        		<option value="bean">$50 - Pair of Bean Bag Seats (with two complimentary drinks)</option>
+	        		<option value="table">$150 - Table for 5 (with one complimentary drink each)</option>
+	        	</select>
+	        </div>
+	        <div class="form-group">
+            <label class="control-label">Quantity</label>
+            <input type="number" class="form-control" min="1" max="40" name="type" ng-model="quantity" required>
+          </div>
+        </div>
+        <div ng-show="showThree">
+        	<h3>Validate you purchase</h3>
+        	Session: {{session | json}}<br>
+        	Seat: {{type}}<br>
+        	Quantity: {{quantity}}<br>
+        	Total: ${{total}}
+        </div>
+        <a href="" class="btn btn-default pull-left" ng-show="back" ng-click="clickBack()">back</a>
+        <a href="" class="btn btn-warning pull-right" ng-show="showOne" ng-click="clickOne()"
+        	ng-disabled="!(session.one || session.two || session.three || session.four || session.five || session.six || session.seven || session.eight || session.nine || session.ten || session.eleven || session.twelve || session.thirteen)">next</a>
+      	<a href="" class="btn btn-warning pull-right" ng-show="showTwo" ng-click="clickTwo()" 
+      		ng-disabled="ticketForm.type.$invalid || ticketForm.quantity.$invalid">next</a>
+        <a href="" class="btn btn-success pull-right" ng-show="showThree" ng-click="alert('Success')">Support</a>
+      </form>
+      
+    </div>
+
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 project">
+    <h2>{{project.name}}</h2>
+    <p class="by"><a href="#/user/{{project.uid}}"><small>{{project.createdBy}}</small></a></p>
+
+    <i class="fa fa-picture-o fa-5x" ng-hide="project.image"></i>
+    <img ng-show="project.image" src="{{project.image}}"  alt="{{project.name}}"> 
+    <h4>{{project.spill}}</h4>
+    <br>
+    <div class="container">
+      <div class="row col-xs-12 col-sm-12 col-md-7 col-lg-7" ng-bind-html="project.description"></div>
+    </div>
+    
+    <div class="well well-lg" ng-init="more=5">
+      <h3>Comments</h3>
+      <div class="well well-lg well-white">
+        <div class="row comments fadein" ng-repeat="comment in result = (project.comments | orderObjectBy:date:true)" ng-hide="$index > more">
+          <div class="col-md-12">
+            <p>{{ comment.text }}</p>
+            <small class="text-muted pull-left" am-time-ago="comment.date"></small>
+            <small class="text-muted pull-right">posted by <a href="#/user/{{comment.uid}}">{{comment.username}}</a> 
+              <span ng-show="signedIn() && comment.uid === uid">&nbsp - &nbsp
+                <a href ng-click="removeComment(comment)">delete comment</a>
+              </span>
+            </small>
+          </div>
+        </div>
+        <div class="row text-center text-muted" ng-show="more < result.length-1">
+          - &nbsp <a href class="decoration-none" ng-click="more=more+10">more</a> &nbsp -
+        </div>
+      </div>
+      <div ng-hide="signedIn()">
+        <h4>Sign in to post a comment</h4>
+        <a href class="btn btn-sm btn-primary" ng-click="fbLogin()"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
+      </div>
+       
+      <form ng-show="signedIn()">
+        <textarea ng-model="comment.text" placeholder="Post a Comment" class="form-control"></textarea><br />
+        <input type="submit" ng-click="addComment()" value="Post Comment" class="btn btn-primary" />
+      </form>
+    </div>
+      
+    </div>
+    <div class="hidden-xs hidden-sm col-md-4 col-lg-4" style="position: absolute; top: 12%; right: 5%; z-index: 10;">
+      <div class="well well-sm">
+        <h4>{{project.name}}</h4>
+        <p class="by"><a href="#/user/{{project.uid}}"><small>{{project.createdBy}}</small></a></p>
+        <p>{{project.spill}}</p>
+        <p>
+          <span class="text-muted"><span class="glyphicon glyphicon-tag"> {{project.category}} </span>
+          &nbsp&nbsp&nbsp            
+          <span class="text-muted"><span class="glyphicon glyphicon-map-marker"> {{project.location}} </span>
+        </p>
+
+        <div class="animate">
+          <progressbar class="progress-striped active" value="project.percentage" type="success">{{project.volunteerCount}} / {{project.target}} volunteers</progressbar>
+        </div>
+
+        <h5>Volunteers</h5>
+        <div class="row" style="margin-left:3px">
+          <div class="volunteer-facepile" ng-repeat="v in volunteerList | orderBy:'rank'" ng-hide="!v.item.image">
+            <a href="#/user/{{v.item.uid}}" tooltip="{{v.item.username}}"><img src="{{v.item.image}}"></a>
+          </div>
+        </div>
+        
+        <br><br>
+
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+          <small class="text-muted">Subscription</small><br>          
+          <strong>{{project.percentage | number:0}}%</strong>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+          <small class="text-muted">Closing Date</small><br>
+          <strong am-time-ago="project.deadline"></strong>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+          <small class="text-muted">Event </small><br>
+          <strong ng-show"project.date">{{project.date | datetime}}</strong>
+        </div>
+
+        <div class="btn-volunteer">
+          <form name="volunteerForm" ng-submit="addVolunteer()" novalidate>
+            <div class="alert {{alert.type}}" ng-show="alert.msg">{{alert.msg}}</div>
+            <div class="form-group">
+              <label class="control-label">*Volunteer Role</label>
+              <select class="form-control" name="role" ng-model="role" required>
+                <option value="friend" disabled>Dog's Best Friend (Only 19 Oct left)</option>
+                <option value="social" disabled>Social Media Guru</option>
+                <option value="log" disabled>Logistics and Muscles</option>
+                <option value="photo">Photographer (Only 19 Oct left)</option>
+                <option value="run" disabled>Run with Deborah</option>
+                <option value="cycle" disabled>Cycle with Deborah</option>
+              </select>
+              <span ng-show="volunteerForm.role.$error.required && volunteerForm.role.$dirty" class="label label-danger">Please choose a role for the project.</span>
+            </div>
+            <div class="form-group">
+              <label class="control-label">*T-shirt Size <small>(<a href="cas/tshirt.jpg" target="_blank">size chart</a>)</small></label>
+              <select class="form-control" name="size" ng-model="size" required>
+                <option value="xs">Extra Small</option>
+                <option value="s">Small</option>
+                <option value="m">Medium</option>
+                <option value="l">Large</option>
+                <option value="xl">Extra Large</option>
+              </select>
+              <span ng-show="volunteerForm.size.$error.required && volunteerForm.size.$dirty" class="label label-danger">Please choose a t-shirt size.</span>
+            </div>
+            <div class="form-group">
+							<label class="control-label">*Mobile Number</label>
+							<input type="text" class="form-control" name="contact" ng-model="contact" ng-pattern="/^[89]\d{7}$/" required>
+							<span ng-show="volunteerForm.contact.$error.required && volunteerForm.contact.$dirty" class="label label-danger">Please allow our volunteers to contact you to confirm your availabilty.</span>
+							<span ng-show="volunteerForm.contact.$error.pattern && volunteerForm.contact.$dirty" class="label label-danger">Please enter a valid number.</span>
+						</div>
+	        	<p><small class="text-muted">(Your details will only be used solely for the running of this project. Please read our <a href="#/privacy" taget="_blank">Privacy Policy</a>.)</small></p>
+            <div class="btn-volunteer"><a class="btn btn-block btn-lg btn-success" ng-disabled="disable || volunteerForm.$invalid" ng-click="addVolunteer()"><i class="fa fa-users"></i> I want to volunteer!</a></div>
+          </form>
+        </div>
+      </div>
+      <div class="well well-sm">
+        <h4>Get tickets!</h4>
+        <p>Like what you see? Support the local musicians and their selfless effort to raise awareness for Mental Health illness in Singapore. More importantly, all proceeds from the ticket sales goes to Singapore Association for Mental Health. So make a date with us!</p>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+        	<h2 style="border-radius:50%; color: #FFF; height:60px; width:60px; padding-top:15px" ng-style="stepOne">1</h2>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+        	<h2 style="border-radius:50%; color: #FFF; height:60px; width:60px; padding-top:15px" ng-style="stepTwo">2</h2>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+        	<h2 style="border-radius:50%; color: #FFF; height:60px; width:60px; padding-top:15px" ng-style="stepThree">3</h2>
+        </div>
+        <form name="ticketForm" ng-submit="buyTicket()" novalidate>
+        	<div class="alert {{donationalert.type}}" ng-show="donationalert.msg">{{donationalert.msg}}</div>
+	        <div ng-show="showOne">
+	        	<h3>Choose your Session</h3>
+	        	<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+	        		<h5>Day 1</h5>
+	        		<div class="checkbox">
+		        		<label class="checkbox-inline">
+		        			<input type="checkbox" name="session" ng-model="session.one"> Dave Mathew's Band
+		        		</label>
+		        	</div>
+		        	<div class="checkbox">
+	              <label class="checkbox-inline">
+	              	<input type="checkbox" name="session" ng-model="session.two"> Rolling Stones
+	              </label>
+	            </div>
+	            <div class="checkbox">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="session" ng-model="session.three"> Metallica
+								</label>
+							</div>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+	        		<h5>Day 2</h5>
+	        		<div class="checkbox">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="session" ng-model="session.four"> GnR
+								</label>
+							</div>
+							<div class="checkbox">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="session" ng-model="session.five"> Beetles
+								</label>
+							</div>
+	        		<div class="checkbox">
+		        		<label class="checkbox-inline">
+		        			<input type="checkbox" name="session" ng-model="session.six"> Beyond
+		        		</label>
+		        	</div>
+		        	<div class="checkbox">
+	              <label class="checkbox-inline">
+	              	<input type="checkbox" name="session" ng-model="session.seven"> May Day
+	              </label>
+	            </div>
+	            <div class="checkbox">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="session" ng-model="session.eight"> SodaGreen
+								</label>
+							</div>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+	        		<h5>Day 3</h5>
+	        		<div class="checkbox">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="session" ng-model="session.nine"> Queen
+								</label>
+							</div>
+							<div class="checkbox">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="session" ng-model="session.ten"> Led Zepplin
+								</label>
+							</div>
+	        		<div class="checkbox">
+		        		<label class="checkbox-inline">
+		        			<input type="checkbox" name="session" ng-model="session.eleven"> Nirvana
+		        		</label>
+		        	</div>
+		        	<div class="checkbox">
+	              <label class="checkbox-inline">
+	              	<input type="checkbox" name="session" ng-model="session.twelve"> Red Hot Chilli Peppers
+	              </label>
+	            </div>
+	            <div class="checkbox">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="session" ng-model="session.thirteen"> U2
+								</label>
+							</div>
+            </div>			
+            <span ng-show="session.length==0 && ticketForm.session.$dirty" class="label label-danger">Please choose a role for the project.</span>
+	        </div>
+	        <div ng-show="showTwo">
+	        	<h3>Choose your Seats</h3>
+	        	<div class="form-group">
+              <label class="control-label">Type</label>
+              <select class="form-control" name="type" ng-model="type" required>
+		        		<option value="stand">$10 - Standing</option>
+		        		<option value="seat">$15 - Individual Seats</option>
+		        		<option value="bean">$50 - Pair of Bean Bag Seats (with two complimentary drinks)</option>
+		        		<option value="table">$150 - Table for 5 (with one complimentary drink each)</option>
+		        	</select>
+		        </div>
+		        <div class="form-group">
+              <label class="control-label">Quantity</label>
+              <input type="number" class="form-control" min="1" max="40" name="type" ng-model="quantity" required>
+            </div>
+	        </div>
+	        <div ng-show="showThree">
+	        	<h3>Validate you purchase</h3>
+	        	Session: {{session | json}}<br>
+	        	Seat: {{type}}<br>
+	        	Quantity: {{quantity}}<br>
+	        	Total: ${{total}}
+	        </div>
+	        <a href="" class="btn btn-default pull-left" ng-show="back" ng-click="clickBack()">back</a>
+	        <a href="" class="btn btn-warning pull-right" ng-show="showOne" ng-click="clickOne()"
+	        	ng-disabled="!(session.one || session.two || session.three || session.four || session.five || session.six || session.seven || session.eight || session.nine || session.ten || session.eleven || session.twelve || session.thirteen)">next</a>
+        	<a href="" class="btn btn-warning pull-right" ng-show="showTwo" ng-click="clickTwo()" 
+        		ng-disabled="ticketForm.type.$invalid || ticketForm.quantity.$invalid">next</a>
+	        <a href="" class="btn btn-success pull-right" ng-show="showThree" ng-click="alert('Success')">Support</a>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+
+<script type="text/ng-template" id="login.html">
+  <div class="modal-header">
+    <h3 class="modal-title">Please sign in to Love Action Project</h3>
+  </div>
+  <div class="modal-body">
+    <h4>Want to volunteer?</h4>
+    <p>Please sign in to Love Action Project and click on the "I want to volunteer" button. Signing in is as simple as clicking on the Facebook button and sign in with your Facebook account.</p>
+    <p>Find out more on <a href="#/whyfb" target="_blank">why and how we use your Facebook credentials</a>.</p>
+    <div class="text-center">
+      <a href class="btn btn-sm btn-primary" ng-click="fbLogin()"><i class="fa fa-facebook"></i> Login with Facebook</a>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  </div>
+</script>

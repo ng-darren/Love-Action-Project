@@ -1,0 +1,393 @@
+<div class="container">
+  <br>
+  <div class="col-xs-12 col-sm-12 hidden-md hidden-lg">
+    <div class="well well-sm">
+      <h4>{{project.name}}</h4>
+      <p class="by"><a href="#/user/{{project.uid}}"><small>{{project.createdBy}}</small></a></p>
+      <p>{{project.spill}}</p>
+      <p>
+        <span class="text-muted"><span class="glyphicon glyphicon-tag"></span> {{project.category}} </span>
+        &nbsp&nbsp&nbsp            
+        <span class="text-muted"><span class="glyphicon glyphicon-map-marker"></span> {{project.location}} </span>
+      </p>
+
+      <div class="animate">
+        <progressbar class="progress-striped active" value="project.percentage" type="success">{{project.volunteerCount}} / {{project.target}} volunteers</progressbar>
+      </div>
+
+      <h5>Volunteers</h5>
+      <div class="container">
+        <div class="row">
+          <div class="pull-left volunteer-facepile" ng-repeat="v in volunteerList | orderBy:'rank'" ng-hide="!v.item.image">
+            <a href="#/user/{{v.item.uid}}" tooltip="{{v.item.username}}"><img src="{{v.item.image}}"></a>
+          </div>
+        </div>
+      </div>
+      
+      <br><br>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <small class="text-muted">Subscription</small><br>           
+        <strong>{{project.percentage | number:0}}%</strong>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <small class="text-muted">Closing Date</small><br>
+        <strong am-time-ago="project.deadline"></strong>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <small class="text-muted">Event </small><br>
+        <strong ng-show"project.date">{{project.date | datetime}}</strong>
+      </div>
+      <br><br>
+      <div class="alert {{alert.type}}" ng-show="alert.msg">{{alert.msg}}</div>
+      <form name="volunteerForm" ng-submit="addVolunteer()" novalidate>
+        <div class="alert {{alert.type}}" ng-show="alert.msg">{{alert.msg}}</div>
+        <div class="form-group">
+          <label class="control-label">*Volunteer Role</label>
+          <select class="form-control" name="role" ng-model="role" required>
+            <option value="friend" disabled>Dog's Best Friend (Only 19 Oct left)</option>
+            <option value="social" disabled>Social Media Guru</option>
+            <option value="log" disabled>Logistics and Muscles</option>
+            <option value="photo">Photographer (Only 19 Oct left)</option>
+            <option value="run" disabled>Run with Deborah</option>
+            <option value="cycle" disabled>Cycle with Deborah</option>
+          </select>
+          <span ng-show="volunteerForm.role.$error.required && volunteerForm.role.$dirty" class="label label-danger">Please choose a role for the project.</span>
+        </div>
+        <div class="form-group">
+          <label class="control-label">*T-shirt Size <small>(<a href="cas/tshirt.jpg" target="_blank">size chart</a>)</small></label>
+          <select class="form-control" name="size" ng-model="size" required>
+            <option value="xs">Extra Small</option>
+            <option value="s">Small</option>
+            <option value="m">Medium</option>
+            <option value="l">Large</option>
+            <option value="xl">Extra Large</option>
+          </select>
+          <span ng-show="volunteerForm.size.$error.required && volunteerForm.size.$dirty" class="label label-danger">Please choose a t-shirt size.</span>
+        </div>
+        <div class="btn-volunteer"><a class="btn btn-block btn-lg btn-success" ng-disabled="disable || volunteerForm.$invalid" ng-click="addVolunteer()"><i class="fa fa-users"></i> I want to volunteer!</a></div>
+      </form>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 hidden-md hidden-lg well well-sm">
+      <h4>Make Deborah Run!</h4>
+      <p>Every kilometer Deborah runs will be dedicated to an individual donor. During the event, we will provide live commentary (on Facebook and our website) and you will be hash-tagged when she is running your leg. More importantly, all donations (less about 3% Paypal fees) goes straight to Causes for Animals to help the dogs. So make Deborah run for you.</p>
+      <div class="alert {{donationalert.type}}" ng-show="donationalert.msg">{{donationalert.msg}}</div>
+
+      <form name="_xclick" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+        <h4>Well and Good <small class="text-muted pull-right">{{project.donations.ten}} Donors</small></h4>
+        <p>A dog receives one meal and basic health checkup</p>
+        <input type="hidden" name="cmd" value="_xclick">
+        <input type="hidden" name="business" value="calm@causesforanimals.com">
+        <input type="hidden" name="currency_code" value="SGD">
+        <input type="hidden" name="item_name" value="Well and Good - A dog receives one meal and basic health checkup">
+        <input type="hidden" name="amount" value="10">
+        <input type="hidden" name="no_shipping" value="1">
+        <input type="hidden" name="return" value="http://loveactionproject.com/#/cas?amount=10">
+        <input type="hidden" name="cancel_return" value="http://loveactionproject.com/#/cas">
+        <input type="hidden" name="cbt" value="Back to Love Action Project">
+        <input type="submit" name="submit" value="SGD$10" class="btn btn-block btn-info">
+      </form>
+
+      <form name="_xclick" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+        <h4>Get Healthy <small class="text-muted pull-right">{{project.donations.twenty}} Donors</small></h4>
+        <p>A dog receives vaccination, deworm treatment and microchip</p>
+        <input type="hidden" name="cmd" value="_xclick">
+        <input type="hidden" name="business" value="calm@causesforanimals.com">
+        <input type="hidden" name="currency_code" value="SGD">
+        <input type="hidden" name="item_name" value="Get Healthy - A dog receives vaccination, deworm treatment and microchip">
+        <input type="hidden" name="amount" value="20">
+        <input type="hidden" name="no_shipping" value="1">
+        <input type="hidden" name="return" value="http://loveactionproject.com/#/cas?amount=20">
+        <input type="hidden" name="cancel_return" value="http://loveactionproject.com/#/cas">
+        <input type="hidden" name="cbt" value="Back to Love Action Project">
+        <input type="submit" name="submit" value="SGD$20" class="btn btn-block btn-info">
+      </form>
+
+      <form name="_xclick" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+        <h4>Get Healthy and Full <small class="text-muted pull-right">{{project.donations.thirty}} Donors</small></h4>
+        <p>A dog receives one meal, vaccination, deworm treatment and microchip</p>
+        <input type="hidden" name="cmd" value="_xclick">
+        <input type="hidden" name="business" value="calm@causesforanimals.com">
+        <input type="hidden" name="currency_code" value="SGD">
+        <input type="hidden" name="item_name" value="Get Healthy and Full - A dog receives one meal, vaccination, deworm treatment and microchip">
+        <input type="hidden" name="amount" value="30">
+        <input type="hidden" name="no_shipping" value="1">
+        <input type="hidden" name="return" value="http://loveactionproject.com/#/cas?amount=30">
+        <input type="hidden" name="cancel_return" value="http://loveactionproject.com/#/cas">
+        <input type="hidden" name="cbt" value="Back to Love Action Project">
+        <input type="submit" name="submit" value="SGD$30" class="btn btn-block btn-info">
+      </form>
+
+      <form name="_xclick" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+        <h4>Protection <small class="text-muted pull-right">{{project.donations.fifty}} Donors</small></h4>
+        <p>A dog receives one meal a day for a week and vaccination</p>
+        <input type="hidden" name="cmd" value="_xclick">
+        <input type="hidden" name="business" value="calm@causesforanimals.com">
+        <input type="hidden" name="currency_code" value="SGD">
+        <input type="hidden" name="item_name" value="Protection - A dog receives one meal a day for a week and vaccination">
+        <input type="hidden" name="amount" value="50">
+        <input type="hidden" name="no_shipping" value="1">
+        <input type="hidden" name="return" value="http://loveactionproject.com/#/cas?amount=50">
+        <input type="hidden" name="cancel_return" value="http://loveactionproject.com/#/cas">
+        <input type="hidden" name="cbt" value="Back to Love Action Project">
+        <input type="submit" name="submit" value="SGD$50" class="btn btn-block btn-info">
+      </form>
+
+      <form name="_xclick" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+        <h4>Chips <small class="text-muted pull-right">{{project.donations.hundred}} Donors</small></h4>
+        <p>A dog receives one meal a day for a week, vaccination, sterilisation and microchip</p>
+        <input type="hidden" name="cmd" value="_xclick">
+        <input type="hidden" name="business" value="calm@causesforanimals.com">
+        <input type="hidden" name="currency_code" value="SGD">
+        <input type="hidden" name="item_name" value="Chips - A dog receives one meal a day for a week, vaccination, sterilisation and microchip">
+        <input type="hidden" name="amount" value="100">
+        <input type="hidden" name="no_shipping" value="1">
+        <input type="hidden" name="return" value="http://loveactionproject.com/#/cas?amount=100">
+        <input type="hidden" name="cancel_return" value="http://loveactionproject.com/#/cas">
+        <input type="hidden" name="cbt" value="Back to Love Action Project">
+        <input type="submit" name="submit" value="SGD$100" class="btn btn-block btn-info">
+      </form>
+
+      <form name="_xclick" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+        <h4>The Full Works <small class="text-muted pull-right">{{project.donations.twohundred}} Donors</small></h4>
+        <p>A dog receives one meal a day for a week, vaccination, sterilisation, microchip and heartworm treatment</p>
+        <input type="hidden" name="cmd" value="_xclick">
+        <input type="hidden" name="business" value="calm@causesforanimals.com">
+        <input type="hidden" name="currency_code" value="SGD">
+        <input type="hidden" name="item_name" value="The Full Works - A dog receives one meal a day for a week, vaccination, sterilisation, microchip and heartworm treatment">
+        <input type="hidden" name="amount" value="200">
+        <input type="hidden" name="no_shipping" value="1">
+        <input type="hidden" name="return" value="http://loveactionproject.com/#/cas?amount=200">
+        <input type="hidden" name="cancel_return" value="http://loveactionproject.com/#/cas">
+        <input type="hidden" name="cbt" value="Back to Love Action Project">
+        <input type="submit" name="submit" value="SGD$200" class="btn btn-block btn-info">
+      </form>
+
+      <div><p class="text-muted pull-right"><small>Donor numbers correct as at 19 Oct 2014</small></p></div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 project">
+    <h2>{{project.name}}</h2>
+    <p class="by"><a href="#/user/{{project.uid}}"><small>{{project.createdBy}}</small></a></p>
+
+    <i class="fa fa-picture-o fa-5x" ng-hide="project.image"></i>
+    <img ng-show="project.image" src="{{project.image}}"  alt="{{project.name}}"> 
+    <h4>{{project.spill}}</h4>
+    <br>
+    <div class="container">
+      <div class="row col-xs-12 col-sm-12 col-md-7 col-lg-7" ng-bind-html="project.description"></div>
+    </div>
+    
+    <div class="well well-lg" ng-init="more=5">
+      <h3>Comments</h3>
+      <div class="well well-lg well-white">
+        <div class="row comments fadein" ng-repeat="comment in result = (project.comments | orderObjectBy:date:true)" ng-hide="$index > more">
+          <div class="col-md-12">
+            <p>{{ comment.text }}</p>
+            <small class="text-muted pull-left" am-time-ago="comment.date"></small>
+            <small class="text-muted pull-right">posted by <a href="#/user/{{comment.uid}}">{{comment.username}}</a> 
+              <span ng-show="signedIn() && comment.uid === uid">&nbsp - &nbsp
+                <a href ng-click="removeComment(comment)">delete comment</a>
+              </span>
+            </small>
+          </div>
+        </div>
+        <div class="row text-center text-muted" ng-show="more < result.length-1">
+          - &nbsp <a href class="decoration-none" ng-click="more=more+10">more</a> &nbsp -
+        </div>
+      </div>
+      <div ng-hide="signedIn()">
+        <h4>Sign in to post a comment</h4>
+        <a href class="btn btn-sm btn-primary" ng-click="fbLogin()"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
+      </div>
+       
+      <form ng-show="signedIn()">
+        <textarea ng-model="comment.text" placeholder="Post a Comment" class="form-control"></textarea><br />
+        <input type="submit" ng-click="addComment()" value="Post Comment" class="btn btn-primary" />
+      </form>
+    </div>
+      
+    </div>
+    <div class="hidden-xs hidden-sm col-md-4 col-lg-4" style="position: absolute; top: 12%; right: 5%; z-index: 10;">
+      <div class="well well-sm">
+        <h4>{{project.name}}</h4>
+        <p class="by"><a href="#/user/{{project.uid}}"><small>{{project.createdBy}}</small></a></p>
+        <p>{{project.spill}}</p>
+        <p>
+          <span class="text-muted"><span class="glyphicon glyphicon-tag"> {{project.category}} </span>
+          &nbsp&nbsp&nbsp            
+          <span class="text-muted"><span class="glyphicon glyphicon-map-marker"> {{project.location}} </span>
+        </p>
+
+        <div class="animate">
+          <progressbar class="progress-striped active" value="project.percentage" type="success">{{project.volunteerCount}} / {{project.target}} volunteers</progressbar>
+        </div>
+
+        <h5>Volunteers</h5>
+        <div class="row" style="margin-left:3px">
+          <div class="volunteer-facepile" ng-repeat="v in volunteerList | orderBy:'rank'" ng-hide="!v.item.image">
+            <a href="#/user/{{v.item.uid}}" tooltip="{{v.item.username}}"><img src="{{v.item.image}}"></a>
+          </div>
+        </div>
+        
+        <br><br>
+
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+          <small class="text-muted">Subscription</small><br>          
+          <strong>{{project.percentage | number:0}}%</strong>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+          <small class="text-muted">Closing Date</small><br>
+          <strong am-time-ago="project.deadline"></strong>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+          <small class="text-muted">Event </small><br>
+          <strong ng-show"project.date">{{project.date | datetime}}</strong>
+        </div>
+
+        <div class="btn-volunteer">
+          <form name="volunteerForm" ng-submit="addVolunteer()" novalidate>
+            <div class="alert {{alert.type}}" ng-show="alert.msg">{{alert.msg}}</div>
+            <div class="form-group">
+              <label class="control-label">*Volunteer Role</label>
+              <select class="form-control" name="role" ng-model="role" required>
+                <option value="friend" disabled>Dog's Best Friend (Only 19 Oct left)</option>
+                <option value="social" disabled>Social Media Guru</option>
+                <option value="log" disabled>Logistics and Muscles</option>
+                <option value="photo">Photographer (Only 19 Oct left)</option>
+                <option value="run" disabled>Run with Deborah</option>
+                <option value="cycle" disabled>Cycle with Deborah</option>
+              </select>
+              <span ng-show="volunteerForm.role.$error.required && volunteerForm.role.$dirty" class="label label-danger">Please choose a role for the project.</span>
+            </div>
+            <div class="form-group">
+              <label class="control-label">*T-shirt Size <small>(<a href="cas/tshirt.jpg" target="_blank">size chart</a>)</small></label>
+              <select class="form-control" name="size" ng-model="size" required>
+                <option value="xs">Extra Small</option>
+                <option value="s">Small</option>
+                <option value="m">Medium</option>
+                <option value="l">Large</option>
+                <option value="xl">Extra Large</option>
+              </select>
+              <span ng-show="volunteerForm.size.$error.required && volunteerForm.size.$dirty" class="label label-danger">Please choose a t-shirt size.</span>
+            </div>
+            <div class="btn-volunteer"><a class="btn btn-block btn-lg btn-success" ng-disabled="disable || volunteerForm.$invalid" ng-click="addVolunteer()"><i class="fa fa-users"></i> I want to volunteer!</a></div>
+          </form>
+        </div>
+      </div>
+      <div class="well well-sm">
+        <h4>Make Deborah Run!</h4>
+        <p>Every kilometer Deborah runs will be dedicated to an individual donor. During the event, we will provide live commentary (on Facebook and our website) and you will be hash-tagged when she is running your leg. More importantly, all donations (less about 3% Paypal fees) goes straight to Causes for Animals to help the dogs. So make Deborah run for you.</p>
+        <div class="alert {{donationalert.type}}" ng-show="donationalert.msg">{{donationalert.msg}}</div>
+
+        <form name="_xclick" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+          <h4>Well and Good <small class="text-muted pull-right">{{project.donations.ten}} Donors</small></h4>
+          <p>A dog receives one meal and basic health checkup</p>
+          <input type="hidden" name="cmd" value="_xclick">
+          <input type="hidden" name="business" value="calm@causesforanimals.com">
+          <input type="hidden" name="currency_code" value="SGD">
+          <input type="hidden" name="item_name" value="Well and Good - A dog receives one meal and basic health checkup">
+          <input type="hidden" name="amount" value="10">
+          <input type="hidden" name="no_shipping" value="1">
+          <input type="hidden" name="return" value="http://loveactionproject.com/#/cas?amount=10">
+          <input type="hidden" name="cancel_return" value="http://loveactionproject.com/#/cas">
+          <input type="hidden" name="cbt" value="Back to Love Action Project">
+          <input type="submit" name="submit" value="SGD$10" class="btn btn-block btn-info">
+        </form>
+
+        <form name="_xclick" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+          <h4>Get Healthy <small class="text-muted pull-right">{{project.donations.twenty}} Donors</small></h4>
+          <p>A dog receives vaccination, deworm treatment and microchip</p>
+          <input type="hidden" name="cmd" value="_xclick">
+          <input type="hidden" name="business" value="calm@causesforanimals.com">
+          <input type="hidden" name="currency_code" value="SGD">
+          <input type="hidden" name="item_name" value="Get Healthy - A dog receives vaccination, deworm treatment and microchip">
+          <input type="hidden" name="amount" value="20">
+          <input type="hidden" name="no_shipping" value="1">
+          <input type="hidden" name="return" value="http://loveactionproject.com/#/cas?amount=20">
+          <input type="hidden" name="cancel_return" value="http://loveactionproject.com/#/cas">
+          <input type="hidden" name="cbt" value="Back to Love Action Project">
+          <input type="submit" name="submit" value="SGD$20" class="btn btn-block btn-info">
+        </form>
+
+        <form name="_xclick" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+          <h4>Get Healthy and Full <small class="text-muted pull-right">{{project.donations.thirty}} Donors</small></h4>
+          <p>A dog receives one meal, vaccination, deworm treatment and microchip</p>
+          <input type="hidden" name="cmd" value="_xclick">
+          <input type="hidden" name="business" value="calm@causesforanimals.com">
+          <input type="hidden" name="currency_code" value="SGD">
+          <input type="hidden" name="item_name" value="Get Healthy and Full - A dog receives one meal, vaccination, deworm treatment and microchip">
+          <input type="hidden" name="amount" value="30">
+          <input type="hidden" name="no_shipping" value="1">
+          <input type="hidden" name="return" value="http://loveactionproject.com/#/cas?amount=30">
+          <input type="hidden" name="cancel_return" value="http://loveactionproject.com/#/cas">
+          <input type="hidden" name="cbt" value="Back to Love Action Project">
+          <input type="submit" name="submit" value="SGD$30" class="btn btn-block btn-info">
+        </form>
+
+        <form name="_xclick" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+          <h4>Protection <small class="text-muted pull-right">{{project.donations.fifty}} Donors</small></h4>
+          <p>A dog receives one meal a day for a week and vaccination</p>
+          <input type="hidden" name="cmd" value="_xclick">
+          <input type="hidden" name="business" value="calm@causesforanimals.com">
+          <input type="hidden" name="currency_code" value="SGD">
+          <input type="hidden" name="item_name" value="Protection - A dog receives one meal a day for a week and vaccination">
+          <input type="hidden" name="amount" value="50">
+          <input type="hidden" name="no_shipping" value="1">
+          <input type="hidden" name="return" value="http://loveactionproject.com/#/cas?amount=50">
+          <input type="hidden" name="cancel_return" value="http://loveactionproject.com/#/cas">
+          <input type="hidden" name="cbt" value="Back to Love Action Project">
+          <input type="submit" name="submit" value="SGD$50" class="btn btn-block btn-info">
+        </form>
+
+        <form name="_xclick" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+          <h4>Chips <small class="text-muted pull-right">{{project.donations.hundred}} Donors</small></h4>
+          <p>A dog receives one meal a day for a week, vaccination, sterilisation and microchip</p>
+          <input type="hidden" name="cmd" value="_xclick">
+          <input type="hidden" name="business" value="calm@causesforanimals.com">
+          <input type="hidden" name="currency_code" value="SGD">
+          <input type="hidden" name="item_name" value="Chips - A dog receives one meal a day for a week, vaccination, sterilisation and microchip">
+          <input type="hidden" name="amount" value="100">
+          <input type="hidden" name="no_shipping" value="1">
+          <input type="hidden" name="return" value="http://loveactionproject.com/#/cas?amount=100">
+          <input type="hidden" name="cancel_return" value="http://loveactionproject.com/#/cas">
+          <input type="hidden" name="cbt" value="Back to Love Action Project">
+          <input type="submit" name="submit" value="SGD$100" class="btn btn-block btn-info">
+        </form>
+
+        <form name="_xclick" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+          <h4>The Full Works <small class="text-muted pull-right">{{project.donations.twohundred}} Donors</small></h4>
+          <p>A dog receives one meal a day for a week, vaccination, sterilisation, microchip and heartworm treatment</p>
+          <input type="hidden" name="cmd" value="_xclick">
+          <input type="hidden" name="business" value="calm@causesforanimals.com">
+          <input type="hidden" name="currency_code" value="SGD">
+          <input type="hidden" name="item_name" value="The Full Works - A dog receives one meal a day for a week, vaccination, sterilisation, microchip and heartworm treatment">
+          <input type="hidden" name="amount" value="200">
+          <input type="hidden" name="no_shipping" value="1">
+          <input type="hidden" name="return" value="http://loveactionproject.com/#/cas?amount=200">
+          <input type="hidden" name="cancel_return" value="http://loveactionproject.com/#/cas">
+          <input type="hidden" name="cbt" value="Back to Love Action Project">
+          <input type="submit" name="submit" value="SGD$200" class="btn btn-block btn-info">
+        </form>
+
+        <div><p class="text-muted pull-right"><small>Donor numbers correct as at 19 Oct 2014</small></p></div>
+      </div>
+    </div>
+  </div>
+
+<script type="text/ng-template" id="login.html">
+  <div class="modal-header">
+    <h3 class="modal-title">Please sign in to Love Action Project</h3>
+  </div>
+  <div class="modal-body">
+    <h4>Want to volunteer?</h4>
+    <p>Please sign in to Love Action Project and click on the "I want to volunteer" button. Signing in is as simple as clicking on the Facebook button and sign in with your Facebook account.</p>
+    <p>Find out more on <a href="#/whyfb" target="_blank">why and how we use your Facebook credentials</a>.</p>
+    <div class="text-center">
+      <a href class="btn btn-sm btn-primary" ng-click="fbLogin()"><i class="fa fa-facebook"></i> Login with Facebook</a>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  </div>
+</script>

@@ -1,0 +1,143 @@
+<div class="container">
+  <br>
+  <div class="col-xs-12 col-sm-12 hidden-md hidden-lg well well-sm">
+    <h4>{{project.name}}</h4>
+    <p class="by"><a href="#/user/{{project.uid}}"><small>{{project.createdBy}}</small></a></p>
+    <p>{{project.spill}}</p>
+    <p>
+      <span class="text-muted"><span class="glyphicon glyphicon-tag"></span> {{project.category}} </span>
+      &nbsp&nbsp&nbsp            
+      <span class="text-muted"><span class="glyphicon glyphicon-map-marker"></span> {{project.location}} </span>
+    </p>
+
+    <div class="animate">
+      <progressbar class="progress-striped active" value="project.percentage" type="success">{{project.volunteerCount}} / {{project.target}} volunteers</progressbar>
+    </div>
+
+    <h5>Volunteers</h5>
+    <div class="container">
+      <div class="row">
+        <div class="pull-left volunteer-facepile" ng-repeat="v in volunteerList | orderBy:'rank'" ng-hide="!v.item.image">
+          <a href="#/user/{{v.item.uid}}" tooltip="{{v.item.username}}"><img src="{{v.item.image}}"></a>
+        </div>
+      </div>
+    </div>
+    
+    <br><br>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+      <small class="text-muted">Subscription</small><br>           
+      <strong>{{project.percentage | number:0}}%</strong>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+      <small class="text-muted">Closing Date</small><br>
+      <strong am-time-ago="project.deadline"></strong>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+      <small class="text-muted">Event </small><br>
+      <strong ng-show"project.date">{{project.date | datetime}}</strong>
+    </div>
+    <br><br>
+    <div class="alert {{alert.type}}" ng-show="alert.msg">{{alert.msg}}</div>
+    <div class="btn-volunteer"><a class="btn btn-block btn-lg btn-success" ng-disabled="disable" ng-click="addVolunteer()"><i class="fa fa-users"></i> I want to volunteer!</a></div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 project">
+    <h2>{{project.name}}</h2>
+    <p class="by"><a href="#/user/{{project.uid}}"><small>{{project.createdBy}}</small></a></p>
+
+    <i class="fa fa-picture-o fa-5x" ng-hide="project.image"></i>
+    <img ng-show="project.image" src="{{project.image}}"  alt="{{project.name}}"> 
+    <h4>{{project.spill}}</h4>
+    <br>
+    <div class="container">
+      <div class="row col-xs-12 col-sm-12 col-md-7 col-lg-7" ng-bind-html="project.description"></div>
+    </div>
+    
+    <div class="well well-lg" ng-init="more=5">
+      <h3>Comments</h3>
+      <div class="well well-lg well-white">
+        <div class="row comments fadein" ng-repeat="comment in result = (project.comments | orderObjectBy:date:true)" ng-hide="$index > more">
+          <div class="col-md-12">
+            <p>{{ comment.text }}</p>
+            <small class="text-muted pull-left" am-time-ago="comment.date"></small>
+            <small class="text-muted pull-right">posted by <a href="#/user/{{comment.uid}}">{{comment.username}}</a> 
+              <span ng-show="signedIn() && comment.uid === uid">&nbsp - &nbsp
+                <a href ng-click="removeComment(comment)">delete comment</a>
+              </span>
+            </small>
+          </div>
+        </div>
+        <div class="row text-center text-muted" ng-show="more < result.length-1">
+          - &nbsp <a href class="decoration-none" ng-click="more=more+10">more</a> &nbsp -
+        </div>
+      </div>
+      <div ng-hide="signedIn()">
+        <h4>Sign in to post a comment</h4>
+        <a href class="btn btn-sm btn-primary" ng-click="fbLogin()"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
+      </div>
+       
+      <form ng-show="signedIn()">
+        <textarea ng-model="comment.text" placeholder="Post a Comment" class="form-control"></textarea><br />
+        <input type="submit" ng-click="addComment()" value="Post Comment" class="btn btn-primary" />
+      </form>
+    </div>
+      
+    </div>
+    <div class="hidden-xs hidden-sm col-md-4 col-lg-4 well well-sm card-fix">
+      <h4>{{project.name}}</h4>
+      <p class="by"><a href="#/user/{{project.uid}}"><small>{{project.createdBy}}</small></a></p>
+      <p>{{project.spill}}</p>
+      <p>
+        <span class="text-muted"><span class="glyphicon glyphicon-tag"> {{project.category}} </span>
+        &nbsp&nbsp&nbsp            
+        <span class="text-muted"><span class="glyphicon glyphicon-map-marker"> {{project.location}} </span>
+      </p>
+
+      <div class="animate">
+        <progressbar class="progress-striped active" value="project.percentage" type="success">{{project.volunteerCount}} / {{project.target}} volunteers</progressbar>
+      </div>
+
+      <h5>Volunteers</h5>
+      <div class="row" style="margin-left:3px">
+        <div class="volunteer-facepile" ng-repeat="v in volunteerList | orderBy:'rank'" ng-hide="!v.item.image">
+          <a href="#/user/{{v.item.uid}}" tooltip="{{v.item.username}}"><img src="{{v.item.image}}"></a>
+        </div>
+      </div>
+      
+      <br><br>
+
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <small class="text-muted">Subscription</small><br>
+        <strong>{{project.percentage | number:0}}%</strong>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <small class="text-muted">Closing Date</small><br>
+        <strong am-time-ago="project.deadline"></strong>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <small class="text-muted">Event </small><br>
+        <strong ng-show"project.date">{{project.date | datetime}}</strong>
+      </div>
+
+      <div class="btn-volunteer">
+        <div class="alert {{alert.type}}" ng-show="alert.msg">{{alert.msg}}</div>
+        <a class="btn btn-block btn-lg btn-success" ng-disabled="disable" ng-click="addVolunteer()"><i class="fa fa-users"></i> I want to volunteer!</a>
+      </div>
+    </div>
+  </div>
+
+<script type="text/ng-template" id="login.html">
+  <div class="modal-header">
+    <h3 class="modal-title">Please sign in to Love Action Project</h3>
+  </div>
+  <div class="modal-body">
+    <h4>Want to volunteer?</h4>
+    <p>Please sign in to Love Action Project and click on the "I want to volunteer" button. Signing in is as simple as clicking on the Facebook button and sign in with your Facebook account.</p>
+    <p>Find out more on <a href="#/whyfb" target="_blank">why and how we use your Facebook credentials</a>.</p>
+    <div class="text-center">
+      <a href class="btn btn-sm btn-primary" ng-click="fbLogin()"><i class="fa fa-facebook"></i> Login with Facebook</a>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  </div>
+</script>

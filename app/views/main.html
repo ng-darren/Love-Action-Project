@@ -1,0 +1,136 @@
+<section id="home" class="parallax_section" data-speed="10" data-type="background">
+  <img src="images/home3.jpg" style="width: 110%;" class="hidden-md hidden-lg">
+  <div class="grad"></div>
+  <article>
+    <div class="text-center jtext fadein" ng-show="myStyle">
+      <p class="lead">Spread Love, Give Hope, Take Action...</p>
+      <p><a class="btn btn-lg btn-warning" ng-href="#/discover"><i class="fa fa-users"></i> Discover Projects</a></p>
+    </div>
+    <div class="text-center jtext fadein" ng-show="!myStyle">
+      <p class="lead">Love Action Project Empowers Individuals...</p>
+      <p><a class="btn btn-lg btn-primary" ng-href="#/start"><i class="fa fa-gift"></i> Start a Project!</a></p>
+    </div>
+  </article>
+  <video class="hidden-xs hidden-sm fadein" autoplay loop id="bgvid" ng-show="!myStyle">
+    <source src="images/runforanimals.webm" type="video/webm">
+    <source src="images/runforanimals.mp4" type="video/mp4">
+  </video>
+</section>
+
+<section>
+  <div class="container">
+    <div class="row text-center">
+      <img src="images/logo.jpg" style="width: 100%; max-width: 800px; margin: 50px 0;">
+      <p class="text-center lead"><em>Love Action Project</em> is a non-profit organisation that aims to empower individuals and bring volunteers together.</p>
+      <p class="text-center lead"><strong>We help you to make your dream to help others come true.</strong></p>
+    </div>
+    <br><br><br>
+    <div class="row text-center">
+      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+        <h1>
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-heart-o fa-stack-1x text-success"></i>
+            <i class="fa fa-heart-o fa-stack-2x text-success"></i>
+          </span>
+        </h1>
+        <h1><em class="text-muted">Spread Love.</em></h1>
+        <p>We provide Individuals and Organisations a common platform to campaign for a cause and charity. <a href="#/discover">Discover our projects</a>.</p>
+      </div>
+      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+        <img src="images/hope.png" height="115">
+        <h1><em class="text-muted">Give Hope.</em></h1>
+        <p>We connect like-minded people and turn altruistic ideas, dreams and projects into reality.</p>
+      </div>
+      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+        <img src="images/hand.png" height="115">
+        <h1><em class="text-muted">Take Action.</em></h1>
+        <p>We empower you with the tools and the platform to successfully plan, execute and complete a project. <a href="#/start">Start a project</a>.</p>
+      </div>
+    </div>
+  </div>
+  <br><br><br><br>
+</section>
+
+<section id="home2" class="parallax_section" data-speed="10" data-type="background">
+  <img src="images/mask.jpg" style="width: 100%" class="hidden-md hidden-lg">
+  <div class="grad"></div>
+  <article>
+    <div class="container">
+      <div class="text-center jtext">
+        <p class="text-center lead text-wrap"><i class="fa fa-quote-left fa-2x pull-left"></i>At Love Action Project, we advocate the concept of <em>having fun whilst giving</em>. Apart from providing an avenue for individuals to give, we also encourage them to step forward with their talents, and start a project with us. We wish to plant the seeds of charity in our volunteers’ hearts, so that they can reap the benefits of giving, and pay it forward to the society.<i class="fa fa-quote-right fa-2x pull-right"></i></p>
+      </div>
+    </div>
+  </article>
+</section>
+
+<section style="padding: 50px 0;">
+  <div class="container">
+    <h3>Upcoming Projects</h3>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 staffpick" ng-repeat="up in upcoming">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-5">
+        <a href="#/project/{{up.id}}">
+          <h1 ng-hide="up.image"><i class="fa fa-picture-o fa-5x"></i></h1>
+          <img ng-show="up.image" src="{{up.image}}" alt="{{up.name}}">
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-8 col-lg-7">
+        <h3><a href="#/project/{{up.id}}">{{up.name}}</a></h3>
+        <p class="by"><a href="#/user/{{up.uid}}"><small>{{up.createdBy}}</small></a></p>
+        <p>{{up.spill}}</p>
+        <p>
+          <span class="text-muted"><i class="fa fa-tag"></i> {{up.category}} </span>
+          &nbsp&nbsp&nbsp            
+          <span class="text-muted"><span class="glyphicon glyphicon-map-marker"></span> {{up.location}} </span>
+          &nbsp&nbsp&nbsp            
+          <span class="text-muted"><i class="fa fa-calendar"></i> {{up.date | datetime}} </span>
+        </p>
+
+        <div class="animate">
+          <progressbar class="progress-striped active" value="up.percentage" type="info">{{up.percentage | number:0}}%</progressbar>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <small class="text-muted">Subscription</small><br>
+            <strong>{{up.percentage | number:0}}%</strong>
+          </div>
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <small class="text-muted">Closing Date</small><br>
+            <strong am-time-ago="up.deadline"></strong>
+          </div>
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <small class="text-muted">Volunteers</small><br>
+            <strong>{{up.volunteerCount}} of {{up.target}}</strong>
+          </div>
+        </div>
+
+        <h5>Volunteers</h5>
+        <div class="row" style="margin-left:3px">
+          <div class="volunteer-facepile pull-left" ng-repeat="v in up.volunteers" ng-hide="!v.image">
+            <a href="#/user/{{v.uid}}" tooltip="{{v.username}}"><img src="{{v.image}}"></a>
+          </div>
+        </div>
+
+        <div class="row text-center" style="padding:0 10px">
+          <a class="btn btn-lg btn-success btn-block btn-volunteer" ng-href="#/project/{{up.id}}"><i class="fa fa-users"></i> Volunteer!</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="group" class="parallax_section" data-speed="10" data-type="background">
+  <img src="images/group.jpg" style="width: 110%" class="hidden-md hidden-lg">
+  <div class="grad"></div>
+  <div class="text-center jtext">
+      <p class="lead">Love Action Project Empowers Individuals...</p>
+      <p><a class="btn btn-lg btn-primary" ng-href="#/start"><i class="fa fa-gift"></i> Start a Project!</a></p>
+    </div>
+</section>
+
+<div class="text-center friends">
+  <h2>Discover great projects with your friends!</h2>
+  <p>Want to learn more? <a href="#/discover">Check out our projects</a></p>
+  <br>
+  <a href class="btn btn-lg btn-primary" ng-click="fbLogin()"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
+</div>

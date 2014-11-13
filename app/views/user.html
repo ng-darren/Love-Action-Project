@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-2">
+      <h2>{{user.username}}</h2>
+      <div ng-hide="user.data.picture.data.url"><i class="fa fa-picture-o fa-5x"></i></div>
+      <img ng-src="{{user.data.picture.data.url}}" class="img-responsive fb-picture" ng-show="user.data.picture.data.url" ng-hide="user.image"/>
+      <img ng-src="{{user.image}}" class="img-responsive fb-picture" ng-show="user.image"/>
+    </div>
+
+    <div class="col-md-10">
+      <div class="namecard">
+        <img src="images/logo.jpg" class="img-responsive"/>
+        <div class="bot">
+          <div class="row" ng-bind-html="user.about"></div>
+          <div class="row" ng-show="user.why"><h4>I volunteer because</h4><p>{{user.why}}</p></div>
+          <div class="row" ng-show="user.passionate"><h4>I am passionate about</h4><p>{{user.passionate}}</p></div>
+          
+          <h2><span>{{user.username}}</span></h2>
+        </div>
+      </div>
+
+      <tabset justified="false">
+        <tab heading="Projects">
+          <br>
+          <div class="well well-white">
+            <table class="table table-striped table-hover table-condensed">
+              <th>Project</th>
+              <th>Role</th>
+              <th>Date</th>
+              <tr ng-repeat="p in userProjects | orderObjectBy:'date':true">
+                <td><a ng-href="#/project/{{p.id}}">{{p.name}}</a></td>
+                <td><span ng-show="p.uid === stateParamsUserId">Creator</span><span ng-show="p.uid !== stateParamsUserId">Volunteer</span></td>
+                <td>{{p.date | date}}</td>
+              </tr>
+            </table>
+          </div>
+        </tab>
+        <tab heading="Comments">
+          <br>
+          <div class="well well-white">
+            <div class="post row" ng-repeat="(commentId, comment) in comments | orderObjectBy:'date':true">
+              <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <strong><a href="#/project/{{ comment.projId }}">{{ commentedProjects[comment.projId].name }}</a></strong>
+              </div>
+              <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                <div class="info">
+                  <p>{{ comment.text }} <br> <small class="text-muted pull-right" am-time-ago="comment.date"></small></span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+</div>

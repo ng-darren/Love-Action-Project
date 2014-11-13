@@ -1,0 +1,129 @@
+<div class="container" ng-show="!admin">
+	<div class="row">
+		<h3>Adminstrators Only</h3>
+	</div>
+</div>
+
+<div class="container" ng-show="admin">
+	<div class="row">
+		<h3>Admin Dashboard</h3>
+		<h4><i class="fa fa-users"></i> Users: {{countUser}}</h4>
+		<h4><i class="fa fa-gift"></i> Projects: {{countProject}}</h4>
+	</div>
+	<br>
+	<div class="row">
+		<tabset justified="false">
+			<tab heading="Projects">
+				<br>
+				<div class="well well-white">
+					<table class="table table-striped table-hover table-condensed">
+						<th>Project</th>
+						<th>Category</th>
+						<th>Spill</th>
+						<th>Volunteers</th>
+						<th>Volunteers Target</th>
+						<th>Date</th>
+						<tr ng-repeat="p in projects">
+							<td><a ng-href="#/project/{{p.id}}">{{p.name}}</a></td>
+							<td>{{p.category}}</td>
+							<td>
+								<p>{{p.spill}}</p>
+								<div class="pull-left volunteer-facepile" ng-repeat="v in p.volunteers" ng-hide="!v.image">
+				          <a href="#/user/{{v.uid}}"><img src="{{v.image}}"></a>
+				        </div>
+							</td>
+							<td>{{p.volunteerCount}}</td>
+							<td>{{p.target}}</td>
+							<td>{{p.date | date}}</td>
+						</tr>
+					</table>
+				</div>
+			</tab>
+
+			<tab heading="Users">
+				<br>
+				<h3>Users <small class="pull-right">Search Users: <input ng-model="queryUsers"></small></h3>
+				<table class="table table-striped table-hover table-condensed">
+					<th></th>
+					<th>Image</th>
+					<th>Username</th>
+					<th>Email</th>
+					<th>Facebook Link</th>
+					<tr class="repeated-item" ng-repeat="(uid, u) in users | makeArray | filter: queryUsers">
+						<td>{{$index+1}}</td>
+						<td><img ng-src="{{u.data.picture.data.url}}" class="img-responsive fb-picture"/></td>
+						<td><a href="#/user/{{u.id}}">{{u.username}}</a></td>
+						<td>{{u.data.email}}</td>
+						<td><a href="{{u.data.link}}" target="_blank">{{u.data.link}}</a></td>
+					</tr>
+				</table>
+			</tab>
+
+			<tab heading="{{up.name}}" ng-repeat="up in upcoming">
+				<div class="row">
+					<h3><a href="#/project/{{up.id}}">{{up.name}}</a></h3>
+	        <p class="by"><a href="#/user/{{up.uid}}"><small>{{up.createdBy}}</small></a></p>
+	        <p>{{up.spill}}</p>
+	        <p>
+	          <span class="text-muted"><i class="fa fa-tag"></i> {{up.category}} </span>
+	          &nbsp&nbsp&nbsp            
+	          <span class="text-muted"><span class="glyphicon glyphicon-map-marker"></span> {{up.location}} </span>
+	          &nbsp&nbsp&nbsp            
+	          <span class="text-muted"><i class="fa fa-calendar"></i> {{up.date | datetime}} </span>
+	        </p>
+
+	        <div class="animate">
+	          <progressbar class="progress-striped active" value="up.percentage" type="info">{{up.percentage | number:0}}%</progressbar>
+	        </div>
+				</div>
+
+        <div class="row">
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <small class="text-muted">Subscription</small><br>
+            <strong>{{up.percentage | number:0}}%</strong>
+          </div>
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <small class="text-muted">Closing Date</small><br>
+            <strong am-time-ago="up.deadline"></strong>
+          </div>
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <small class="text-muted">Volunteers</small><br>
+            <strong>{{up.volunteerCount}} of {{up.target}}</strong>
+          </div>
+        </div>
+
+        <div class="row">
+        	<h4>Roles</h4>
+	        <div class="col-xs-12 col-sm-2 col-sm-offset-1 col-md-2 col-md-offset-1 col-lg-2 col-lg-offset-1 well well-sm text-center" ng-repeat="(id, ro) in role">
+	        	<h1>{{id}} <span class="badge">{{ro}}</span></h1>
+	        </div>
+
+        	<h4>T-Shirt</h4>
+	        <div class="col-xs-4 col-sm-2 col-md-2 col-lg-2 well well-sm text-center" ng-repeat="(id, si) in size">
+	        	<h1>{{si}} <span class="badge">{{id}}</span></h1>
+	        </div>
+        </div>
+
+        <div class="row">
+	        <h4>Volunteers</h4>
+	        <table class="table table-striped table-hover table-condensed">
+						<th></th>
+						<th>Username</th>
+						<th>Role</th>
+						<th>Tshirt Size</th>
+						<th>Email</th>
+						<th>Remarks</th>
+						<tr class="repeated-item" ng-repeat="u in up.volunteers | makeArray | filter: queryUsers">
+							<td>{{$index+1}}</td>
+							<td><a href="#/user/{{u.uid}}">{{u.username}}</a></td>
+							<td>{{u.role}}</td>
+							<td>{{u.size}}</td>
+							<td>{{emails[$index]}}</td>
+							<td>{{u.remarks}}</td>
+						</tr>
+					</table>
+				</div>
+			</tab>
+		</tabset>
+	</div>
+</div>

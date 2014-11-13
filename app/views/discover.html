@@ -1,0 +1,52 @@
+<div class="container discover">
+	<h3>Volunteer</h3>
+	<p class="lead text-muted">Passion, ideas, and kindness abound. Start volunteering!</p>
+  <p class="selection text-center"> 
+    <span class="category" ng-click="query = ''" ng-class="{active: query == ''}" ng-init="query = ''">All</span>
+    <span class="category" ng-click="query = 'animals'" ng-class="{active: query === 'animals'}">Animals</span>
+    <span class="category" ng-click="query = 'children'" ng-class="{active: query === 'children'}">Children</span>
+    <span class="category" ng-click="query = 'elders'" ng-class="{active: query === 'elders'}">Elders</span>
+    <span class="category" ng-click="query = 'everyone'" ng-class="{active: query === 'everyone'}">Everyone</span>
+  </p>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="columns">
+      <div class="pin repeated-item" ng-repeat="p in projects | makeArray | filter: query">
+        <div class="card">
+          <a href="#/project/{{p.id}}" class="text-center">
+            <h1 ng-hide="p.image"><i class="fa fa-picture-o fa-5x"></i></h1>
+            <img ng-show="p.image" src="{{p.image}}" alt="{{p.name}}">
+          </a>
+          <div class="card-text">
+            <h3><a href="#/project/{{p.id}}">{{p.name}}</a></h3>
+            <p class="by"><a href="#/user/{{p.uid}}"><small>{{p.createdBy}}</small></a></p>
+            <p>{{p.spill}}</p>
+            <div class="text-muted">
+              <p><i class="fa fa-tag"></i> {{p.category}} </p>
+              <p><span class="glyphicon glyphicon-map-marker"></span> {{p.location}} </p>
+              <p><i class="fa fa-calendar"></i> {{p.date | datetime}} </p>
+            </div>
+
+            <div class="animate">
+              <progressbar class="progress-striped active" value="p.percentage" type="info">{{p.percentage | number:0}}%</progressbar>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <small class="text-muted">Subscription</small><br>
+                <strong>{{p.percentage | number:0}}%</strong>
+              </div>
+              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <small class="text-muted">Closing Date</small><br>
+                <strong am-time-ago="p.deadline"></strong>
+              </div>
+              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <small class="text-muted">Volunteers</small><br>
+                <strong>{{p.volunteerCount}} of {{p.target}}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

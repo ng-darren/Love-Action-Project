@@ -1,0 +1,54 @@
+<div class="header" ng-controller="NavCtrl">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" ng-init="navC=true" ng-click="navC=!navC">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://loveactionproject.com"><img src="images/loveactionproject.png"/></a>
+            </div>
+            
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-responsive-collapse" collapse="navC">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a ng-href="#/discover"><span class="glyphicon glyphicon-search"></span> Discover</a></li>
+                    <li><a ng-href="#/start"><span class="glyphicon glyphicon-chevron-right"></span> Start</a></li>
+                    <li class="pull-right">
+                        <div class="fb-button" ng-show="!signedIn()">
+                            <a href class="btn btn-sm btn-primary" ng-click="fbLogin()"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
+                        </div>
+                        <ul class="nav navbar-nav navbar-right" ng-show="signedIn()">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"  title="User Action"><i class="fa fa-user"></i> {{ currentUser.username }} <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#/profile"><span class="glyphicon glyphicon-user"></span> My Profile</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href ng-click="logout()">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </div>
+</div>
+
+<script type="text/ng-template" id="about.html">
+    <div class="modal-header">
+        <h3 class="modal-title">About {{currentUser.username}}</h3>
+    </div>
+    <div class="modal-body">
+        <p class="lead">New to Love Action Project?</p>
+        <p>We would like to know more about you!</p>
+        <p>Tell us more about yourself, your hobbies and how you would like to Spread Love, Give Hope and Take Action with Love Action Project. Visit <a href="#/profile" ng-click="cancel()">your profile</a> to tell us more.</p>
+        <p>You can also access your profile page by clicking on your name at the top right corner of your screen.</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="cancel()">Later</button>
+    </div>
+</script>

@@ -1,0 +1,95 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-2">
+      <h2>{{currentUser.username}}</h2>
+      <div ng-hide="currentUser.data.picture.data.url"><i class="fa fa-picture-o fa-5x"></i></div>
+      <img ng-src="{{currentUser.data.picture.data.url}}" class="img-responsive fb-picture" ng-show="currentUser.data.picture.data.url" ng-hide="currentUser.image"/>
+      <img ng-src="{{currentUser.image}}" class="img-responsive fb-picture" ng-show="currentUser.image"/>
+    </div>
+
+    <div class="col-md-10">
+      <tabset>
+        <tab heading="Profile">
+          <div class="namecard">
+            <img src="images/logo.jpg" class="img-responsive"/>
+            <div class="bot">
+              <div class="row" ng-bind-html="currentUser.about"></div>
+              <div class="row" ng-show="currentUser.why"><h5>I volunteer beacause</h5><p>{{currentUser.why}}</p></div>
+              <div class="row" ng-show="currentUser.passionate"><h5>I am passionate about</h5><p>{{currentUser.passionate}}</p></div>
+              <h2><span>{{currentUser.username}}</span></h2>
+            </div>
+          </div>
+        </tab>
+        <tab heading="Edit">
+          <form name="userForm" ng-submit="submitUser()">
+            <div class="alert {{alert.type}}" ng-show="alert.msg">{{alert.msg}}</div>
+            <div class="alert {{uploadAlert.type}}" ng-show="uploadAlert.msg">{{uploadAlert.msg}}</div>       
+
+            <div class="form-group">
+              <label class="control-label">Name*</label>
+              <input type="text" name="name" class="form-control" ng-model="currentUser.username" required/>
+              <span ng-show="userForm.name.$error.required && userForm.name.$dirty" class="label label-danger">Please enter a Love Action Project username.</span>
+            </div>
+
+            <div class="form-group">
+              <img class="thumbnail file-preview" ng-show="currentUser.image" src="{{currentUser.image}}" alt="">
+              <label for="upload">Profile Image <small class="text-muted">(maximum size 1Mb)</small></label>
+              <input class="btn btn-primary" type="file" class="form-control" name="upload" ng-disabled="btnFile" file-upload-user>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label">About Me</label>
+              <text-angular ng-model="currentUser.about"></text-angular>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label">I volunteer because...</label>
+              <textarea name="why" class="form-control" row="2" ng-model="currentUser.why"/></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label">I am passonate about...</label>
+              <textarea name="passionate" class="form-control" row="2" ng-model="currentUser.passionate"/></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-cloud-upload"></span> Update Profile</button>
+          </form>
+        </tab>
+      </tabset>
+      
+      <tabset justified="false">
+        <tab heading="Projects">
+          <br>
+          <div class="well well-white">
+            <table class="table table-striped table-hover table-condensed">
+              <th>Project</th>
+              <th>Role</th>
+              <th>Date</th>
+              <tr ng-repeat="p in userProjects">
+                <td><a ng-href="#/project/{{p.id}}">{{p.name}}</a></td>
+                <td><span ng-show="p.createdBy === currentUser.username">Creator</span><span ng-show="p.createdBy !== currentUser.username">Volunteer</span></td>
+                <td>{{p.date | date}}</td>
+              </tr>
+            </table>
+          </div>
+        </tab>
+        <tab heading="Comments">
+          <br>
+          <div class="well well-white">
+            <div class="post row" ng-repeat="(commentId, comment) in comments | orderObjectBy:'date':true">
+              <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <strong><a href="#/project/{{ comment.projId }}">{{ commentedProjects[comment.projId].name }}</a></strong>
+              </div>
+              <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                <div class="info">
+                  <p>{{ comment.text }} <br> <small class="text-muted pull-right" am-time-ago="comment.date"></small></span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </tab>
+      </tabset>
+      
+    </div>
+  </div>
+</div>

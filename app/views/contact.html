@@ -1,0 +1,38 @@
+<div class="container">
+	<h2>Contact Us</h2>
+	<div class="col-sm-12 col-sm-12 col-md-4 col-lg-4">
+		<div class="alert fadein {{messageType}}" ng-show="msg">
+			{{msg}} <img src="{{loading}}" class="loading">
+		</div>
+		<!-- START CONTACT FORM -->
+		<form name="messageFrm" class="css-form" novalidate>
+			<div class="form-group">
+				<label for="message">Message</label><br>
+				<textarea name="message" class="form-control" cols="50" rows="4" placeholder="Your Message" ng-model="message" required></textarea>
+				<span class="error" ng-show="!messageFrm.message.$pristine && messageFrm.message.$error.required"><br>Please enter the message that you wouldd like to send to us.</span><br>
+			</div>
+			<div class="form-group">          
+				<label for="name">Name</label><br>
+				<input type="text" name="name" placeholder="Name (required)" class="form-control" size="50" ng-model="name" required>
+				<span class="error" ng-show="!messageFrm.name.$pristine && messageFrm.name.$error.required"><br>Please enter your name.</span>
+			</div>
+			<div class="form-group">
+				<label for="email">Email</label><br>
+				<input type="email" name="email" placeholder="Email (required)" class="form-control" size="50" ng-model="email" required>
+				<span class="error" ng-show="!messageFrm.email.$pristine && messageFrm.email.$error.email"><br>Please enter your email address so that we could get in touch.</span>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-primary" ng-disabled="messageFrm.$invalid" ng-click="sendEmail();">Send Message</button>
+			</div>
+		</form>
+	</div>
+	<div ng-show="message || name || email" class="hidden-xs hidden-sm col-md-8 col-lg-8 letterbox">
+    <p>Dear Love Action Project,</p>
+    <br />
+    <p>{{message}}</p>
+    <br />
+    <br />
+    <p>Cheers,</p>
+    <p>{{name}} <br /> {{email}}</p>
+  </div>
+</div>
