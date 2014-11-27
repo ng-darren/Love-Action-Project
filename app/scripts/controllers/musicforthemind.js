@@ -34,8 +34,7 @@ define(['angular'], function (angular) {
       $scope.showThree = true;
       $scope.back = true;
 
-      var seat;
-      var sessions=0;
+      var seat, sessions=0;
       angular.forEach($scope.session, function(v) {
         if(v===true) {
           sessions++;
@@ -139,16 +138,16 @@ define(['angular'], function (angular) {
         if($rootScope.currentUser.hasOwnProperty('projects')) {
           if($rootScope.currentUser.projects.hasOwnProperty('musicforthemind')) {
             $scope.alert.type = 'alert-info';
-            $scope.alert.msg = 'You have already signed up to volunteer for Project ' + $scope.project.name + '. Please take note of the date and time of the event. The organisor will contact you with further details of the event through your email soon.';
+            $scope.alert.msg = 'You have already signed up to volunteer for Project ' + $scope.project.name + '. Please take note of the date and time of the event and we will contact you with further details of the event through your email soon.';
           } else {
             Project.addVolunteer('musicforthemind', $scope.role, $scope.size, $scope.contact);
             $scope.alert.type = 'alert-success';
-            $scope.alert.msg = 'Thank you for signing up to volunteer for Project ' + $scope.project.name + '. Please take note of the date and time of the event. The organisor will contact you with further details of the event through your email soon.';
+            $scope.alert.msg = 'Thank you for signing up to volunteer for Project ' + $scope.project.name + '. Please take note of the date and time of the event and we will contact you with further details of the event through your email soon.';
           }
         } else {
           Project.addVolunteer('musicforthemind', $scope.role, $scope.size, $scope.contact);
           $scope.alert.type = 'alert-success';
-          $scope.alert.msg = 'Thank you for signing up to volunteer for Project ' + $scope.project.name + '. Please take note of the date and time of the event. The organisor will contact you with further details of the event through your email soon.';
+          $scope.alert.msg = 'Thank you for signing up to volunteer for Project ' + $scope.project.name + '. Please take note of the date and time of the event and we will contact you with further details of the event through your email soon.';
         }
       }
     };
