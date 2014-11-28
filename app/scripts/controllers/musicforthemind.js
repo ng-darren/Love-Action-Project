@@ -40,7 +40,9 @@ define(['angular'], function (angular) {
       $scope.selectedSession = [];
 
       angular.forEach($scope.project.sessions, function(value) {
-        this.push({name: value.name, time: value.time});
+        if(value.selected) {
+          this.push({name: value.name, time: value.time});          
+        }
       }, $scope.selectedSession);
       
       var seat;
