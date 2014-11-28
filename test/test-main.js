@@ -16,7 +16,6 @@ requirejs.config({
     angular: '../bower_components/angular/angular',
     'angular-ui-router': '../bower_components/angular-ui-router/release/angular-ui-router',
     'angular-bootstrap': '../bower_components/angular-bootstrap/ui-bootstrap-tpls',
-    'angular-scenario': '../bower_components/angular-scenario/angular-scenario',
     'angular-route': '../bower_components/angular-route/angular-route',
     'angular-touch': '../bower_components/angular-touch/angular-touch',
     'angular-resource': '../bower_components/angular-resource/angular-resource',

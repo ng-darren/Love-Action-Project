@@ -8,6 +8,9 @@ define(['angular'], function (angular) {
     $scope.donationalert = {};
     $scope.disable = true;
     $scope.volunteerList = [];
+
+    $scope.totalSession = 0;
+    $scope.selectedSession = [];
     
     $scope.stepOne = {'background-color':'orange'};
     $scope.stepTwo = {'background-color':'#EEE'};
@@ -34,12 +37,13 @@ define(['angular'], function (angular) {
       $scope.showThree = true;
       $scope.back = true;
 
-      var seat, sessions=0;
-      angular.forEach($scope.session, function(v) {
-        if(v===true) {
-          sessions++;
-        }
-      });
+      $scope.selectedSession = [];
+
+      angular.forEach($scope.project.sessions, function(value) {
+        this.push({name: value.name, time: value.time});
+      }, $scope.selectedSession);
+      
+      var seat;
       switch($scope.type) {
         case 'stand':
           seat = 10;
@@ -54,7 +58,8 @@ define(['angular'], function (angular) {
           seat = 150;
           break;
       }
-      $scope.total = parseInt($scope.quantity) * sessions * seat;
+
+      $scope.total = parseInt($scope.quantity) * $scope.totalSession * seat;
     };
 
     $scope.clickBack = function() {
@@ -66,6 +71,19 @@ define(['angular'], function (angular) {
         $scope.showTwo = true;
         $scope.showThree = false;
       }
+    };
+
+    $scope.selectSessions = function(name, selected) {
+      if(selected!==undefined) {
+        if (selected) {
+          $scope.totalSession++;
+        } else {
+          $scope.totalSession--;
+        }
+        // selected? $scope.totalSession++ : $scope.totalSession--;
+      }
+      console.log(name + ': ' + selected);
+      console.log('total: ' + $scope.totalSession);
     };
 
     $scope.$watch('project.deadline', function() {

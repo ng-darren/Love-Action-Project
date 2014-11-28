@@ -87,59 +87,11 @@
         <div ng-show="showOne">
         	<h3>Choose your Session</h3>
         	<h5>Day 1</h5>
-          <div class="checkbox">
+          <div class="checkbox" ng-repeat="(key, session) in project.sessions">
             <label class="checkbox-inline">
-              <input type="checkbox" name="session" ng-model="session.one"> Dave Mathew's Band & Rolling Stones
+              <input type="checkbox" ng-model="session.selected" ng-change="selectSessions(session.name, session.selected)">{{session.name}}
             </label>
           </div>
-          <div class="checkbox">
-            <label class="checkbox-inline">
-              <input type="checkbox" name="session" ng-model="session.two"> Beetles & Beyond
-            </label>
-          </div>
-          <h5>Day 2</h5>
-          <div class="checkbox">
-            <label class="checkbox-inline">
-              <input type="checkbox" name="session" ng-model="session.three"> GnR & Metallica
-            </label>
-          </div>
-          <div class="checkbox">
-            <label class="checkbox-inline">
-              <input type="checkbox" name="session" ng-model="session.four"> Beetles & Sodagreen
-            </label>
-          </div>
-          <div class="checkbox">
-            <label class="checkbox-inline">
-              <input type="checkbox" name="session" ng-model="session.five"> Beyond & May Day
-            </label>
-          </div>
-          <div class="checkbox">
-            <label class="checkbox-inline">
-              <input type="checkbox" name="session" ng-model="session.six"> Paraprhase & Nirvana
-            </label>
-          </div>
-          <h5>Day 3</h5>
-          <div class="checkbox">
-            <label class="checkbox-inline">
-              <input type="checkbox" name="session" ng-model="session.seven"> May Day & SodaGreen
-            </label>
-          </div>
-          <div class="checkbox">
-            <label class="checkbox-inline">
-              <input type="checkbox" name="session" ng-model="session.eight"> Led Zepplin & Beetles
-            </label>
-          </div>
-          <div class="checkbox">
-            <label class="checkbox-inline">
-              <input type="checkbox" name="session" ng-model="session.nine"> Nirvana & Red Hot Chilli Peppers
-            </label>
-          </div>
-          <div class="checkbox">
-            <label class="checkbox-inline">
-              <input type="checkbox" name="session" ng-model="session.ten"> Queen & Led Zepplin
-            </label>
-          </div>		
-          <span ng-show="session.length==0 && ticketForm.session.$dirty" class="label label-danger">Please choose a role for the project.</span>
         </div>
         <div ng-show="showTwo">
         	<h3>Choose your Seats</h3>
@@ -148,8 +100,8 @@
             <select class="form-control" name="type" ng-model="type" required>
 	        		<option value="stand">$10 - Standing</option>
 	        		<option value="seat">$15 - Individual Seats</option>
-	        		<option value="bean">$50 - Pair of Bean Bag Seats (with two complimentary drinks)</option>
-	        		<option value="table">$150 - Table for 5 (with one complimentary drink each)</option>
+	        		<option value="bean">$50 - Pair of Bean Bag Seats (two complimentary drinks)</option>
+	        		<option value="table">$150 - Table for 5 (one complimentary drink each)</option>
 	        	</select>
 	        </div>
 	        <div class="form-group">
@@ -159,17 +111,27 @@
         </div>
         <div ng-show="showThree">
         	<h3>Validate you purchase</h3>
-        	Session: {{session | json}}<br>
-        	Seat: {{type}}<br>
-        	Quantity: {{quantity}}<br>
-        	Total: ${{total}}
+          <table class="table table-condensed table-striped">
+            <thead>
+              <th>Time</th>
+              <th>Name</th>
+            </thead>
+            <tr ng-repeat="s in selectedSession">
+              <td>{{s.time}}</td>
+              <td>{{s.name}}</td>
+            </tr>
+
+          </table>
+        	<strong>Seat Type: {{type}}</strong><br>
+          <strong>Quantity: {{quantity}}</strong><br>
+          <strong>Total: ${{total}}</strong><br>
         </div>
-        <a href="" class="btn btn-default pull-left" ng-show="back" ng-click="clickBack()">back</a>
-        <a href="" class="btn btn-warning pull-right" ng-show="showOne" ng-click="clickOne()"
-        	ng-disabled="!(session.one || session.two || session.three || session.four || session.five || session.six || session.seven || session.eight || session.nine || session.ten || session.eleven || session.twelve || session.thirteen)">next</a>
-      	<a href="" class="btn btn-warning pull-right" ng-show="showTwo" ng-click="clickTwo()" 
-      		ng-disabled="ticketForm.type.$invalid || ticketForm.quantity.$invalid">next</a>
-        <a href="" class="btn btn-success pull-right" ng-show="showThree" ng-click="alert('Success')">Support</a>
+        <div class="form-group">
+          <a href="" class="btn btn-default pull-left" ng-show="back" ng-click="clickBack()">back</a>
+          <a href="" class="btn btn-warning pull-right" ng-show="showOne" ng-click="clickOne()" ng-disabled="!totalSession">next</a>
+          <a href="" class="btn btn-warning pull-right" ng-show="showTwo" ng-click="clickTwo()" ng-disabled="ticketForm.type.$invalid || ticketForm.quantity.$invalid">next</a>
+          <a href="" class="btn btn-success pull-right" ng-show="showThree" ng-click="alert('Success')">Support</a>
+        </div>
       </form>
       
     </div>
@@ -307,7 +269,6 @@
         	<div class="alert {{donationalert.type}}" ng-show="donationalert.msg">{{donationalert.msg}}</div>
 	        <div ng-show="showOne">
 	        	<h3>Choose your Session</h3>
-            <p>{{project.sessions | json}}</p>
             <h5>Day 1</h5>
             <div class="checkbox" ng-repeat="(sessionId, session) in project.sessions">
               <label class="checkbox-inline">
