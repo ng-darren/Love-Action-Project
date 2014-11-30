@@ -1,6 +1,6 @@
 /*jshint unused: vars */
-define(['angular', 'controllers/main', 'controllers/nav', 'controllers/discover', 'controllers/start', 'controllers/project', 'controllers/user', 'services/project', 'services/auth', 'services/user', 'controllers/profile', 'services/func', 'directives/fileuploadproject', 'filters/orderobjectby', 'filters/makearray', 'filters/datetime', 'directives/fileuploaduser', 'controllers/contact', 'services/email', 'controllers/cas', 'controllers/admin', 'controllers/musicforthemind']/*deps*/,
-  function (angular, MainCtrl, NavCtrl, DiscoverCtrl, StartCtrl, ProjectCtrl, UserCtrl, ProjectFactory, AuthFactory, UserFactory, ProfileCtrl, FuncFactory, FileuploadprojectDirective, OrderobjectbyFilter, MakearrayFilter, DatetimeFilter, FileuploaduserDirective, ContactCtrl, EmailService, CasCtrl, AdminCtrl, MusicforthemindCtrl)/*invoke*/ {
+define(['angular', 'controllers/main', 'controllers/nav', 'controllers/discover', 'controllers/start', 'controllers/project', 'controllers/user', 'services/project', 'services/auth', 'services/user', 'controllers/profile', 'services/func', 'directives/fileuploadproject', 'filters/orderobjectby', 'filters/makearray', 'filters/datetime', 'directives/fileuploaduser', 'controllers/contact', 'services/email', 'controllers/cas', 'controllers/admin', 'controllers/musicforthemind', 'services/ticket']/*deps*/,
+  function (angular, MainCtrl, NavCtrl, DiscoverCtrl, StartCtrl, ProjectCtrl, UserCtrl, ProjectFactory, AuthFactory, UserFactory, ProfileCtrl, FuncFactory, FileuploadprojectDirective, OrderobjectbyFilter, MakearrayFilter, DatetimeFilter, FileuploaduserDirective, ContactCtrl, EmailService, CasCtrl, AdminCtrl, MusicforthemindCtrl, TicketService)/*invoke*/ {
   'use strict';
 
   return angular.module('lapApp', ['lapApp.controllers.MainCtrl',
@@ -23,7 +23,8 @@ define(['angular', 'controllers/main', 'controllers/nav', 'controllers/discover'
     'lapApp.filters.Orderobjectby',
     'lapApp.filters.Makearray',
     'lapApp.filters.Datetime',
-'lapApp.controllers.MusicforthemindCtrl',
+    'lapApp.controllers.MusicforthemindCtrl',
+    'lapApp.services.Ticket',
 /*angJSDeps*/
     'rulerHTTP',
     'ngCookies',

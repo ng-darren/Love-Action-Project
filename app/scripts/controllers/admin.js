@@ -8,10 +8,8 @@ define(['angular'], function (angular) {
    * # AdminCtrl
    * Controller of the lapApp
    */
-  angular.module('lapApp.controllers.AdminCtrl', []).controller('AdminCtrl', function ($rootScope, $scope, $state, User, Project) {
+  angular.module('lapApp.controllers.AdminCtrl', []).controller('AdminCtrl', function ($rootScope, $scope, $state, User) {
     $scope.admin = true;
-
-    $rootScope.projects = Project.all();
     $scope.users = User.all();
 
     $scope.queryUsers = '';

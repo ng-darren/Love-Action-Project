@@ -1,7 +1,8 @@
 define(['angular'], function (angular) {
 	'use strict';
 
-	angular.module('lapApp.controllers.NavCtrl', []).controller('NavCtrl', function ($rootScope, $scope, $state, $modal, Auth, User, Func) {
+	angular.module('lapApp.controllers.NavCtrl', []).controller('NavCtrl', function ($rootScope, $scope, $state, $modal, Auth, User, Project, Func) {
+		$rootScope.projects = Project.all();
 		$scope.opened = false;
 		var ModalInstanceCtrl = function ($scope, $modalInstance) {
 			$scope.cancel = function () {

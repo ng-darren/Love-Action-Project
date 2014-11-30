@@ -1,7 +1,7 @@
 define(['angular'], function (angular) {
 	'use strict';
 
-	angular.module('lapApp.controllers.MainCtrl', []).controller('MainCtrl', function ($rootScope, $scope, $interval, $timeout, Auth, User, Project) {
+	angular.module('lapApp.controllers.MainCtrl', []).controller('MainCtrl', function ($scope, $interval, $timeout, Auth, User) {
 		$scope.fbLogin = function () {
 			Auth.fbLogin().then(function (authUser) {
 				User.createFB(authUser, authUser.displayName);
@@ -9,8 +9,6 @@ define(['angular'], function (angular) {
 				$scope.error = error.toString().substring(48);
 			});
 		};
-
-		$rootScope.projects = Project.all();
 		
 		$scope.myStyle = true;
 

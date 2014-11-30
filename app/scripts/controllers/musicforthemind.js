@@ -1,8 +1,10 @@
 define(['angular'], function (angular) {
   'use strict';
 
-  angular.module('lapApp.controllers.MusicforthemindCtrl', []).controller('MusicforthemindCtrl', function ($window, $rootScope, $scope, $modal, $location, Func, User, Auth, Project) {
+  angular.module('lapApp.controllers.MusicforthemindCtrl', []).controller('MusicforthemindCtrl', function ($window, $rootScope, $scope, $modal, $location, Func, User, Auth, Project, Ticket) {
     $scope.project = Project.find('musicforthemind');
+    $scope.transactions = Ticket.all();
+
     var param = $location.search();
     $scope.alert = {};
     $scope.donationalert = {};
@@ -11,6 +13,8 @@ define(['angular'], function (angular) {
 
     $scope.totalSession = 0;
     $scope.selectedSession = [];
+    $scope.itemName = 'The item name.';
+    $scope.itemNumber = '1';
     
     $scope.stepOne = {'background-color':'orange'};
     $scope.stepTwo = {'background-color':'#EEE'};
@@ -39,11 +43,22 @@ define(['angular'], function (angular) {
 
       $scope.selectedSession = [];
 
-      angular.forEach($scope.project.sessions, function(value) {
+      angular.forEach($scope.tickets, function(value) {
         if(value.selected) {
-          this.push({name: value.name, time: value.time});          
+          this.push({name: value.name, time: value.time});
         }
       }, $scope.selectedSession);
+
+      $scope.item_name = '';
+      for(var i=0; i<$scope.selectedSession.length; i++){
+        if(i < $scope.selectedSession.length-2) {console.log($scope.selectedSession[i].name );
+          $scope.item_name += $scope.selectedSession[i].name + ', ';
+        } else if(i === $scope.selectedSession.length-2) {console.log($scope.selectedSession[i].name );
+          $scope.item_name += $scope.selectedSession[i].name + ' and ';
+        } else {console.log($scope.selectedSession[i].name );
+          $scope.item_name += $scope.selectedSession[i].name;
+        }
+      }
       
       var seat;
       switch($scope.type) {
@@ -84,8 +99,8 @@ define(['angular'], function (angular) {
         }
         // selected? $scope.totalSession++ : $scope.totalSession--;
       }
-      console.log(name + ': ' + selected);
-      console.log('total: ' + $scope.totalSession);
+      // console.log(name + ': ' + selected);
+      // console.log('total: ' + $scope.totalSession);
     };
 
     $scope.$watch('project.deadline', function() {
@@ -98,36 +113,9 @@ define(['angular'], function (angular) {
         });
       });
 
-      if (param.amount === '10') {
+      if (param.s && param.c) {
         $scope.donationalert.type = 'alert-success';
-        $scope.donationalert.msg = 'Thank you for donating a meal and basic health checkup for one of our dogs. Join us and support Deborah as she run for the animals.';
-        $scope.project.donations.ten = $scope.project.donations.ten + 1;
-        Project.updateDonations($scope.project);
-      } else if (param.amount === '20') {
-        $scope.donationalert.type = 'alert-success';
-        $scope.donationalert.msg = 'Thank you for giving a dog vaccination, deworm treatment and microchip. Join us and support Deborah as she run for the animals.';
-        $scope.project.donations.twenty = $scope.project.donations.twenty + 1;
-        Project.updateDonations($scope.project);
-      } else if (param.amount === '30') {
-        $scope.donationalert.type = 'alert-success';
-        $scope.donationalert.msg = 'Thank you for giving a dog a meal, vaccination, deworm treatment and microchip. Join us and support Deborah as she run for the animals.';
-        $scope.project.donations.thirty = $scope.project.donations.thirty + 1;
-        Project.updateDonations($scope.project);
-      } else if (param.amount === '50') {
-        $scope.donationalert.type = 'alert-success';
-        $scope.donationalert.msg = 'Thank you for giving a dog one meal a day for a week and vaccination. Join us and support Deborah as she run for the animals.';
-        $scope.project.donations.fifty = $scope.project.donations.fifty + 1;
-        Project.updateDonations($scope.project);
-      } else if (param.amount === '100') {
-        $scope.donationalert.type = 'alert-success';
-        $scope.donationalert.msg = 'Thank you for giving a dog one meal a day for a week, vaccination, sterilisation and microchip. Join us and support Deborah as she run for the animals.';
-        $scope.project.donations.hundred = $scope.project.donations.hundred + 1;
-        Project.updateDonations($scope.project);
-      } else if (param.amount === '200') {
-        $scope.donationalert.type = 'alert-success';
-        $scope.donationalert.msg = 'Thank you for giving a dog one meal a day for a week, vaccination, sterilisation, microchip and heartworm treatment. Join us and support Deborah as she run for the animals.';
-        $scope.project.donations.twohundred = $scope.project.donations.twohundred + 1;
-        Project.updateDonations($scope.project);
+        $scope.donationalert.msg = 'Thank you for your payment. Your transaction has been completed and a receipt for your purchase has been emailed to you. You may log in to your account at www.sandbox.paypal.com/sg to view details of this transaction.';
       }
     });
 
