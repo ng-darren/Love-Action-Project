@@ -38,7 +38,7 @@ define(['angular'], function (angular) {
       '21 Dec (Sun) 2100-2330hrs'];
 
     $rootScope.tickets = [];
-    for(var i=0; i<9; i++) {
+    for(var i=0; i<10; i++) {
       $rootScope.tickets.push({
         name: names[i],
         time: time[i],

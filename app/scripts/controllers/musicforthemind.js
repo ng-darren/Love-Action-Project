@@ -13,8 +13,6 @@ define(['angular'], function (angular) {
 
     $scope.totalSession = 0;
     $scope.selectedSession = [];
-    $scope.itemName = 'The item name.';
-    $scope.itemNumber = '1';
     
     $scope.stepOne = {'background-color':'orange'};
     $scope.stepTwo = {'background-color':'#EEE'};
@@ -32,6 +30,20 @@ define(['angular'], function (angular) {
       $scope.showOne = false;
       $scope.showTwo = true;
       $scope.back = true;
+
+      $scope.selectedSession = [];
+
+      angular.forEach($scope.tickets, function(value) {
+        if(value.selected) {
+          var stand, seat, bean, table;
+          if(value.seat===0) {
+            seat=0;
+          } else {
+            seat=1;
+          }
+          this.push({name: value.name, time: value.time, stand: value.stand, seat: value.seat, bean: value.bean, table: value.table, seatSoldOut: seat});
+        }
+      }, $scope.selectedSession);
     };
 
     $scope.clickTwo = function() {
@@ -41,24 +53,8 @@ define(['angular'], function (angular) {
       $scope.showThree = true;
       $scope.back = true;
 
-      $scope.selectedSession = [];
-
-      angular.forEach($scope.tickets, function(value) {
-        if(value.selected) {
-          this.push({name: value.name, time: value.time});
-        }
-      }, $scope.selectedSession);
-
-      $scope.item_name = '';
-      for(var i=0; i<$scope.selectedSession.length; i++){
-        if(i < $scope.selectedSession.length-2) {console.log($scope.selectedSession[i].name );
-          $scope.item_name += $scope.selectedSession[i].name + ', ';
-        } else if(i === $scope.selectedSession.length-2) {console.log($scope.selectedSession[i].name );
-          $scope.item_name += $scope.selectedSession[i].name + ' and ';
-        } else {console.log($scope.selectedSession[i].name );
-          $scope.item_name += $scope.selectedSession[i].name;
-        }
-      }
+      // Prep for Paypal
+      $scope.item_name = $scope.selectedSession[0].name;
       
       var seat;
       switch($scope.type) {
@@ -76,7 +72,7 @@ define(['angular'], function (angular) {
           break;
       }
 
-      $scope.total = parseInt($scope.quantity) * $scope.totalSession * seat;
+      $scope.total = parseInt($scope.quantity) * seat;
     };
 
     $scope.clickBack = function() {
@@ -99,9 +95,27 @@ define(['angular'], function (angular) {
         }
         // selected? $scope.totalSession++ : $scope.totalSession--;
       }
-      // console.log(name + ': ' + selected);
-      // console.log('total: ' + $scope.totalSession);
     };
+
+    $scope.selectType = function() {
+      if($scope.selectedSession.length) {
+        switch ($scope.type) {
+          case 'stand':
+            $scope.quantityMax = $scope.selectedSession[0].stand;
+            break;
+          case 'seat':
+            $scope.quantityMax = $scope.selectedSession[0].seat;
+            break;
+          case 'bean':
+            $scope.quantityMax = $scope.selectedSession[0].bean;
+            break;
+          case 'table':
+            $scope.quantityMax = $scope.selectedSession[0].table;
+            break;
+        }
+        
+      }
+    }
 
     $scope.$watch('project.deadline', function() {
       $scope.disable = $scope.project.deadline < Date.now();
@@ -118,47 +132,6 @@ define(['angular'], function (angular) {
         $scope.donationalert.msg = 'Thank you for your payment. Your transaction has been completed and a receipt for your purchase has been emailed to you. You may log in to your account at www.sandbox.paypal.com/sg to view details of this transaction.';
       }
     });
-
-    var ModalInstanceCtrl = function ($scope, $modalInstance) {
-      $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
-      };
-
-      $scope.fbLogin = function () {
-        Auth.fbLogin().then(function (authUser) {
-          User.createFB(authUser, authUser.displayName);
-          $modalInstance.dismiss('cancel');
-        }, function (error) {
-          $scope.error = error.toString().substring(48);
-        });
-      };
-    };
-
-    $scope.addVolunteer = function () {
-      if(!Auth.signedIn()) {
-        $modal.open({
-          templateUrl: 'login.html',
-          controller: ModalInstanceCtrl,
-          size: 'md',
-          backdrop: 'static'
-        });
-      } else {
-        if($rootScope.currentUser.hasOwnProperty('projects')) {
-          if($rootScope.currentUser.projects.hasOwnProperty('musicforthemind')) {
-            $scope.alert.type = 'alert-info';
-            $scope.alert.msg = 'You have already signed up to volunteer for Project ' + $scope.project.name + '. Please take note of the date and time of the event and we will contact you with further details of the event through your email soon.';
-          } else {
-            Project.addVolunteer('musicforthemind', $scope.role, $scope.size, $scope.contact);
-            $scope.alert.type = 'alert-success';
-            $scope.alert.msg = 'Thank you for signing up to volunteer for Project ' + $scope.project.name + '. Please take note of the date and time of the event and we will contact you with further details of the event through your email soon.';
-          }
-        } else {
-          Project.addVolunteer('musicforthemind', $scope.role, $scope.size, $scope.contact);
-          $scope.alert.type = 'alert-success';
-          $scope.alert.msg = 'Thank you for signing up to volunteer for Project ' + $scope.project.name + '. Please take note of the date and time of the event and we will contact you with further details of the event through your email soon.';
-        }
-      }
-    };
 
     $scope.fbLogin = function () {
       Auth.fbLogin().then(function (authUser) {

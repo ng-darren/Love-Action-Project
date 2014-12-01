@@ -75,7 +75,6 @@
 						<input type="range" name="target" ng-model="project.target" min="1" max="300" required>
 						<span ng-show="projectForm.target.$error.required && projectForm.target.$dirty" class="label label-danger">Please set a target for number of volunteers.</span>
 						<span ng-show="projectForm.target.$error.number && projectForm.target.$dirty" class="label label-danger">Please enter a valid number.</span>
-						<span ng-show="projectForm.target.$error.max && projectForm.target.$dirty" class="label label-danger">Please enter a valid number.</span>
 						<span ng-show="projectForm.target.$error.max && projectForm.target.$dirty" class="label label-warning">Creating a project that requires more than 300 volunteers? Select 300 and contact us separately.</span>
 					</div>
 
