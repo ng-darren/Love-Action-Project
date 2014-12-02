@@ -15,15 +15,8 @@
       <form name="ticketForm" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" ng-init="submit=0" ng-submit="submit=1" novalidate>
         <div ng-show="showOne">
         	<h3>Choose your Session</h3>
-          <div class="checkbox" ng-repeat="(key, session) in tickets">
-            <h4 ng-if="$index===0"><br>Day 1 </h4>
-            <h4 ng-if="$index===2"><br>Day 2 </h4>
-            <h4 ng-if="$index===6"><br>Day 3 </h4>
-            <label class="checkbox-inline">
-              <input type="checkbox" ng-model="session.selected" ng-change="selectSessions(session.name, session.selected)">{{session.name}}
-            </label>
-          </div>
-          <div class="alert alert-info fadein" ng-show="totalSession > 1"><strong>Heads Up!</strong><br> Please purchase one session at a time to ensure that the seat type and quantity of your choice is available.</div>
+          <select name="session" class="form-control" ng-model="selectedSession" ng-options="session.name group by session.day for session in tickets" required></select>
+          <br><br><br>
         </div>
         <div ng-show="showTwo">
         	<h3>Choose your Seats</h3>
@@ -33,64 +26,59 @@
               <th>Programme</th>
               <th>Seats Left</th>
             </thead>
-            <tr ng-repeat="s in selectedSession">
-              <td>{{s.time}}</td>
-              <td>{{s.name}}</td>
-              <td>Standing: <strong>{{s.stand}}</strong><br>
-                Seat: <strong>{{s.seat}}</strong><br>
-                Bean Bags: <strong>{{s.bean}}</strong><br>
-                Table: <strong>{{s.table}}</strong></td>
+            <tr>
+              <td class="col-xs-4 col-sm-4">{{selectedSession.time}}</td>
+              <td class="col-xs-4 col-sm-4">{{selectedSession.name}}</td>
+              <td class="col-xs-4 col-sm-4">Seat: <strong>{{selectedSession.seat}}</strong><br>
+                Bean Bags: <strong>{{selectedSession.bean}}</strong><br>
+                Table: <strong>{{selectedSession.table}}</strong></td>
             </tr>
           </table>
         	<div class="form-group">
             <label class="control-label">Type</label>
             <select class="form-control" name="type" ng-model="type" ng-change="selectType()" required>
-              <option value="stand" ng-if="selectedSession[0].stand!==0">$10 - Standing</option>
-              <option value="stand" ng-if="selectedSession[0].stand===0" ng-disabled="selectedSession[0].stand===0">$10 (Sold Out) - Standing</option>
-              <option value="seat" ng-if="selectedSession[0].seat!==0">$15 - Individual Seats</option>
-              <option value="seat" ng-if="selectedSession[0].seat===0" ng-disabled="selectedSession[0].seat===0">$15 (Sold Out) - Individual Seats</option>
-              <option value="bean" ng-if="selectedSession[0].bean!==0">$50 - Pair of Bean Bag Seats (two complimentary drinks)</option>
-              <option value="bean" ng-if="selectedSession[0].bean===0" ng-disabled="selectedSession[0].bean===0">$50 (Sold Out) - Pair of Bean Bag Seats (two complimentary drinks)</option>
-              <option value="table" ng-if="selectedSession[0].table!==0">$150 - Table for 5 (one complimentary drink each)</option>
-              <option value="table" ng-if="selectedSession[0].table===0" ng-disabled="selectedSession[0].table===0">$150 (Sold Out) - Table for 5 (one complimentary drink each)</option>
+              <option value="stand" ng-if="selectedSession.stand!==0">$10 - Standing</option>
+              <option value="stand" ng-if="selectedSession.stand===0" ng-disabled="selectedSession.stand===0">$10 (Sold Out) - Standing</option>
+              <option value="seat" ng-if="selectedSession.seat!==0">$15 - Individual Seats</option>
+              <option value="seat" ng-if="selectedSession.seat===0" ng-disabled="selectedSession.seat===0">$15 (Sold Out) - Individual Seats</option>
+              <option value="bean" ng-if="selectedSession.bean!==0">$50 - Pair of Bean Bag Seats (two complimentary drinks)</option>
+              <option value="bean" ng-if="selectedSession.bean===0" ng-disabled="selectedSession.bean===0">$50 (Sold Out) - Pair of Bean Bag Seats (two complimentary drinks)</option>
+              <option value="table" ng-if="selectedSession.table!==0">$150 - Table for 5 (one complimentary drink each)</option>
+              <option value="table" ng-if="selectedSession.table===0" ng-disabled="selectedSession.table===0">$150 (Sold Out) - Table for 5 (one complimentary drink each)</option>
 	        	</select>
 	        </div>
 	        <div class="form-group" ng-if="type">
-            <label class="control-label">Quantity</label>{{quantity}}
-            <input type="number" name="ticketQuantity" class="form-control" min="1" max="{{quantityMax}}" ng-model="quantity" required>
-            <div class="alert alert-danger fadein" ng-show="ticketForm.ticketQuantity.$error.required && ticketForm.ticketQuantity.$dirty"><strong>Hmmm...</strong><br> Did you forget to key in the quantity?</div>
-            <div class="alert alert-danger fadein" ng-show="ticketForm.ticketQuantity.$error.max && ticketForm.ticketQuantity.$dirty"><strong>Sorry!</strong><br> There are only {{quantityMax}} ticket<span ng-show="quantityMax>1">s</span> left.</div>
-            <div class="alert alert-danger fadein" ng-show="ticketForm.ticketQuantity.$error.min && ticketForm.ticketQuantity.$dirty"><strong>Support Us!</strong><br> Please buy some tickets.</div>
-            <div class="alert alert-danger fadein" ng-show="ticketForm.ticketQuantity.$error.number && ticketForm.ticketQuantity.$dirty">Please key in a number.</div>
+            <label class="control-label">Quantity</label>
+            <input type="number" name="ticketQuantity" class="form-control" min="1" max="{{quantityMax}}" ng-model="quantity" ng-change="quantityChange(quantity)" required>
           </div>
         </div>
         <div ng-show="showThree">
-        	<h3>Validate you purchase</h3>{{quantity}}
+        	<h3>Validate your Purchase</h3>
           <table class="table table-condensed table-striped">
             <thead>
               <th>Time</th>
               <th>Programme</th>
             </thead>
-            <tr ng-repeat="s in selectedSession">
-              <td>{{s.time}}</td>
-              <td>{{s.name}}</td>
+            <tr>
+              <td>{{selectedSession.time}}</td>
+              <td>{{selectedSession.name}}</td>
             </tr>
           </table>
           <br>
-        	<strong>Seat Type: {{type}}</strong><br>
+        	<strong>Seat Type: {{type}} (${{seat}})</strong><br>
           <strong>Quantity: {{quantity}}</strong><br>
           <strong>Total: ${{total}}</strong><br><br>
           <div class="alert alert-success fadein" ng-show="submit"><img src="images/tiny-loading.gif" width="20"> Awesome! Allow me to bring you to Paypal.</div>
         </div>
         <div class="form-group">
           <a href="" class="btn btn-default pull-left" ng-show="back" ng-click="clickBack()" ng-disabled="submit">back</a>
-          <a href="" class="btn btn-warning pull-right" ng-show="showOne" ng-click="clickOne()" ng-disabled="!totalSession || totalSession > 1">next</a>
+          <a href="" class="btn btn-warning pull-right" ng-show="showOne" ng-click="clickOne()" ng-disabled="ticketForm.session.$invalid">next</a>
           <a href="" class="btn btn-warning pull-right" ng-show="showTwo" ng-click="clickTwo()" ng-disabled="ticketForm.type.$invalid || ticketForm.ticketQuantity.$invalid">next</a>
           <input type="hidden" name="cmd" value="_xclick">
           <input type="hidden" name="business" value="ngmunyong-facilitator@yahoo.com">
           <input type="hidden" name="currency_code" value="SGD">
           <input type="hidden" name="item_name" value="{{item_name}}">
-          <input type="hidden" name="amount" value="{{total}}">
+          <input type="hidden" name="amount" value="{{seat}}">
           <input type="hidden" name="item_number" value="{{type}}">
           <input type="hidden" name="quantity" value="{{quantity}}">
           <input type="hidden" name="no_shipping" value="1">
@@ -147,98 +135,92 @@
     <div class="hidden-xs hidden-sm col-md-4 col-lg-4" style="position: absolute; top: 12%; right: 5%; z-index: 10;">
       <div class="well well-sm">
         <h4>Get tickets!</h4>
-        <p>Like what you see? Support the local musicians and their selfless effort to raise awareness for Mental Health illness in Singapore. More importantly, all proceeds from the ticket sales goes to Singapore Association for Mental Health. So make a date with us!</p>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
-          <h2 style="border-radius:50%; color: #FFF; height:60px; width:60px; padding-top:15px" ng-style="stepOne">1</h2>
+      <p>Like what you see? Support the local musicians and their selfless effort to raise awareness for Mental Health illness in Singapore. More importantly, all proceeds from the ticket sales goes to Singapore Association for Mental Health. So make a date with us!</p>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+        <h2 style="border-radius:50%; color: #FFF; height:60px; width:60px; padding-top:15px" ng-style="stepOne">1</h2>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+        <h2 style="border-radius:50%; color: #FFF; height:60px; width:60px; padding-top:15px" ng-style="stepTwo">2</h2>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+        <h2 style="border-radius:50%; color: #FFF; height:60px; width:60px; padding-top:15px" ng-style="stepThree">3</h2>
+      </div>
+      <form name="ticketForm" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" ng-init="submit=0" ng-submit="submit=1" novalidate>
+        <div ng-show="showOne">
+          <h3>Choose your Session</h3>
+          <select name="session" class="form-control" ng-model="selectedSession" ng-options="session.name group by session.day for session in tickets" required></select>
+          <br><br><br>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
-          <h2 style="border-radius:50%; color: #FFF; height:60px; width:60px; padding-top:15px" ng-style="stepTwo">2</h2>
-        </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
-          <h2 style="border-radius:50%; color: #FFF; height:60px; width:60px; padding-top:15px" ng-style="stepThree">3</h2>
-        </div>
-        <form name="_xclick" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" novalidate>
-          <div class="alert {{donationalert.type}}" ng-show="donationalert.msg">{{donationalert.msg}}</div>
-          <div ng-show="showOne">
-            <h3>Choose your Session</h3>
-            <div class="checkbox" ng-repeat="(key, session) in tickets">
-              <h5 ng-if="$index===0"><br>Day 1 </h5>
-              <h5 ng-if="$index===2"><br>Day 2 </h5>
-              <h5 ng-if="$index===6"><br>Day 3 </h5>
-              <label class="checkbox-inline">
-                <input type="checkbox" ng-model="session.selected" ng-change="selectSessions(session.name, session.selected)">{{session.name}}
-              </label>
-            </div>
-          </div>
-          <div ng-show="showTwo">
-            <h3>Choose your Seats</h3>
-            <div class="form-group">
-              <label class="control-label">Type</label>
-              <select class="form-control" name="type" ng-model="type" required>
-                <option value="stand">$10 - Standing</option>
-                <option value="seat">$15 - Individual Seats</option>
-                <option value="bean">$50 - Pair of Bean Bag Seats (two complimentary drinks)</option>
-                <option value="table">$150 - Table for 5 (one complimentary drink each)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="control-label">Quantity</label>
-              <input type="number" class="form-control" min="1" max="40" name="type" ng-model="quantity" required>
-            </div>
-          </div>
-          <div ng-show="showThree">
-            <h3>Validate you purchase</h3>
-            <table class="table table-condensed table-striped">
-              <thead>
-                <th>Time</th>
-                <th>Programme</th>
-              </thead>
-              <tr ng-repeat="s in selectedSession">
-                <td>{{s.time}}</td>
-                <td>{{s.name}}</td>
-              </tr>
-            </table>
-            <br>
-            <strong>Number of Sessions: {{selectedSession.length}}</strong><br>
-            <strong>Seat Type: {{type}}</strong><br>
-            <strong>Quantity: {{quantity}}</strong><br>
-            <strong>Total: ${{total}}</strong><br>
-          </div>
+        <div ng-show="showTwo">
+          <h3>Choose your Seats</h3>
+          <table class="table table-condensed table-striped">
+            <thead>
+              <th>Time</th>
+              <th>Programme</th>
+              <th>Seats Left</th>
+            </thead>
+            <tr>
+              <td>{{selectedSession.time}}</td>
+              <td>{{selectedSession.name}}</td>
+              <td>Seat: <strong>{{selectedSession.seat}}</strong><br>
+                Bean Bags: <strong>{{selectedSession.bean}}</strong><br>
+                Table: <strong>{{selectedSession.table}}</strong></td>
+            </tr>
+          </table>
           <div class="form-group">
-            <a href="" class="btn btn-default pull-left" ng-show="back" ng-click="clickBack()">back</a>
-            <a href="" class="btn btn-warning pull-right" ng-show="showOne" ng-click="clickOne()" ng-disabled="!totalSession">next</a>
-            <a href="" class="btn btn-warning pull-right" ng-show="showTwo" ng-click="clickTwo()" ng-disabled="_xclick.type.$invalid || _xclick.quantity.$invalid">next</a>
-            <input type="hidden" name="cmd" value="_xclick">
-            <input type="hidden" name="business" value="ngmunyong-facilitator@yahoo.com">
-            <input type="hidden" name="currency_code" value="SGD">
-            <input type="hidden" name="item_name" value="{{item_name}}">
-            <input type="hidden" name="amount" value="{{total}}">
-            <input type="hidden" name="item_number" value="{{type}}">
-            <input type="hidden" name="quantity" value="{{quantity}}">
-            <input type="hidden" name="no_shipping" value="1">
-            <input type="hidden" name="return" value="http://loveactionproject.com/#/project/musicforthemind">
-            <input type="hidden" name="cancel_return" value="http://loveactionproject.com/#/project/musicforthemind">
-            <input type="hidden" name="cbt" value="Back to Love Action Project">
-            <input type="submit" name="submit" value="Support" class="btn btn-success pull-right" ng-show="showThree">
+            <label class="control-label">Type</label>
+            <select class="form-control" name="type" ng-model="type" ng-change="selectType()" required>
+              <option value="stand" ng-if="selectedSession.stand!==0">$10 - Standing</option>
+              <option value="stand" ng-if="selectedSession.stand===0" ng-disabled="selectedSession.stand===0">$10 (Sold Out) - Standing</option>
+              <option value="seat" ng-if="selectedSession.seat!==0">$15 - Individual Seats</option>
+              <option value="seat" ng-if="selectedSession.seat===0" ng-disabled="selectedSession.seat===0">$15 (Sold Out) - Individual Seats</option>
+              <option value="bean" ng-if="selectedSession.bean!==0">$50 - Pair of Bean Bag Seats (two complimentary drinks)</option>
+              <option value="bean" ng-if="selectedSession.bean===0" ng-disabled="selectedSession.bean===0">$50 (Sold Out) - Pair of Bean Bag Seats (two complimentary drinks)</option>
+              <option value="table" ng-if="selectedSession.table!==0">$150 - Table for 5 (one complimentary drink each)</option>
+              <option value="table" ng-if="selectedSession.table===0" ng-disabled="selectedSession.table===0">$150 (Sold Out) - Table for 5 (one complimentary drink each)</option>
+            </select>
           </div>
-        </form>
+          <div class="form-group" ng-if="type">
+            <label class="control-label">Quantity</label>
+            <input type="number" name="ticketQuantity" class="form-control" min="1" max="{{quantityMax}}" ng-model="quantity" ng-change="quantityChange(quantity)" required>
+          </div>
+        </div>
+        <div ng-show="showThree">
+          <h3>Validate your Purchase</h3>
+          <table class="table table-condensed table-striped">
+            <thead>
+              <th>Time</th>
+              <th>Programme</th>
+            </thead>
+            <tr>
+              <td>{{selectedSession.time}}</td>
+              <td>{{selectedSession.name}}</td>
+            </tr>
+          </table>
+          <br>
+          <strong>Seat Type: {{type}} (${{seat}})</strong><br>
+          <strong>Quantity: {{quantity}}</strong><br>
+          <strong>Total: ${{total}}</strong><br><br>
+          <div class="alert alert-success fadein" ng-show="submit"><img src="images/tiny-loading.gif" width="20"> Awesome! Allow me to bring you to Paypal.</div>
+        </div>
+        <div class="form-group">
+          <a href="" class="btn btn-default pull-left" ng-show="back" ng-click="clickBack()" ng-disabled="submit">back</a>
+          <a href="" class="btn btn-warning pull-right" ng-show="showOne" ng-click="clickOne()" ng-disabled="ticketForm.session.$invalid">next</a>
+          <a href="" class="btn btn-warning pull-right" ng-show="showTwo" ng-click="clickTwo()" ng-disabled="ticketForm.type.$invalid || ticketForm.ticketQuantity.$invalid">next</a>
+          <input type="hidden" name="cmd" value="_xclick">
+          <input type="hidden" name="business" value="ngmunyong-facilitator@yahoo.com">
+          <input type="hidden" name="currency_code" value="SGD">
+          <input type="hidden" name="item_name" value="{{item_name}}">
+          <input type="hidden" name="amount" value="{{seat}}">
+          <input type="hidden" name="item_number" value="{{type}}">
+          <input type="hidden" name="quantity" value="{{quantity}}">
+          <input type="hidden" name="no_shipping" value="1">
+          <input type="hidden" name="return" value="http://loveactionproject.com/#/project/musicforthemind">
+          <input type="hidden" name="cancel_return" value="http://loveactionproject.com/#/project/musicforthemind">
+          <input type="hidden" name="cbt" value="Back to Love Action Project">
+          <input type="submit" name="submit" value="Support" class="btn btn-success pull-right" ng-show="showThree" ng-disabled="submit || quantity<1">
+        </div>
+      </form>
       </div>
     </div>
   </div>
-
-<script type="text/ng-template" id="login.html">
-  <div class="modal-header">
-    <h3 class="modal-title">Please sign in to Love Action Project</h3>
-  </div>
-  <div class="modal-body">
-    <h4>Want to volunteer?</h4>
-    <p>Please sign in to Love Action Project and click on the "I want to volunteer" button. Signing in is as simple as clicking on the Facebook button and sign in with your Facebook account.</p>
-    <p>Find out more on <a href="#/whyfb" target="_blank">why and how we use your Facebook credentials</a>.</p>
-    <div class="text-center">
-      <a href class="btn btn-sm btn-primary" ng-click="fbLogin()"><i class="fa fa-facebook"></i> Login with Facebook</a>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-  </div>
-</script>

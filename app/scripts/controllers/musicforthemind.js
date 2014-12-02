@@ -30,20 +30,6 @@ define(['angular'], function (angular) {
       $scope.showOne = false;
       $scope.showTwo = true;
       $scope.back = true;
-
-      $scope.selectedSession = [];
-
-      angular.forEach($scope.tickets, function(value) {
-        if(value.selected) {
-          var stand, seat, bean, table;
-          if(value.seat===0) {
-            seat=0;
-          } else {
-            seat=1;
-          }
-          this.push({name: value.name, time: value.time, stand: value.stand, seat: value.seat, bean: value.bean, table: value.table, seatSoldOut: seat});
-        }
-      }, $scope.selectedSession);
     };
 
     $scope.clickTwo = function() {
@@ -54,25 +40,24 @@ define(['angular'], function (angular) {
       $scope.back = true;
 
       // Prep for Paypal
-      $scope.item_name = $scope.selectedSession[0].name;
+      $scope.item_name = $scope.selectedSession.name;
       
-      var seat;
       switch($scope.type) {
         case 'stand':
-          seat = 10;
+          $scope.seat = 10;
           break;
         case 'seat':
-          seat = 15;
+          $scope.seat = 15;
           break;
         case 'bean':
-          seat = 50;
+          $scope.seat = 50;
           break;
         case 'table':
-          seat = 150;
+          $scope.seat = 150;
           break;
       }
 
-      $scope.total = parseInt($scope.quantity) * seat;
+      $scope.total = parseInt($scope.quantity) * $scope.seat;
     };
 
     $scope.clickBack = function() {
@@ -86,36 +71,26 @@ define(['angular'], function (angular) {
       }
     };
 
-    $scope.selectSessions = function(name, selected) {
-      if(selected!==undefined) {
-        if (selected) {
-          $scope.totalSession++;
-        } else {
-          $scope.totalSession--;
-        }
-        // selected? $scope.totalSession++ : $scope.totalSession--;
+    $scope.selectType = function() {
+      switch ($scope.type) {
+        case 'stand':
+          $scope.quantityMax = $scope.selectedSession.stand;
+          break;
+        case 'seat':
+          $scope.quantityMax = $scope.selectedSession.seat;
+          break;
+        case 'bean':
+          $scope.quantityMax = $scope.selectedSession.bean;
+          break;
+        case 'table':
+          $scope.quantityMax = $scope.selectedSession.table;
+          break;
       }
     };
 
-    $scope.selectType = function() {
-      if($scope.selectedSession.length) {
-        switch ($scope.type) {
-          case 'stand':
-            $scope.quantityMax = $scope.selectedSession[0].stand;
-            break;
-          case 'seat':
-            $scope.quantityMax = $scope.selectedSession[0].seat;
-            break;
-          case 'bean':
-            $scope.quantityMax = $scope.selectedSession[0].bean;
-            break;
-          case 'table':
-            $scope.quantityMax = $scope.selectedSession[0].table;
-            break;
-        }
-        
-      }
-    }
+    $scope.quantityChange = function(q) {
+      $scope.quantity = q;
+    };
 
     $scope.$watch('project.deadline', function() {
       $scope.disable = $scope.project.deadline < Date.now();
