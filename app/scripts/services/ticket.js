@@ -24,8 +24,7 @@ define(['angular'], function (angular) {
       'Artiste/Band 11 & Artiste/Band 12',
       'Tabula and Blues Band from Crazy Elephants',
       'Jack and Rai & Afterhours',
-      'Artiste/Band 17 & Trisno Acoustic Duo',
-      'Artiste/Band 19 & Artiste/Band 20'];
+      'Artiste/Band 17 & Trisno Acoustic Duo'];
     var time = ['19 Dec (Fri) 1945-2200hrs',
       '19 Dec (Fri) 2200-0030hrs',
       '20 Dec (Sat) 1400-1600hrs',
@@ -34,14 +33,12 @@ define(['angular'], function (angular) {
       '21 Dec (Sat) 2100-2330hrs',
       '21 Dec (Sun) 1400-1600hrs',
       '21 Dec (Sun) 1600-1830hrs',
-      '21 Dec (Sun) 1830-2100hrs',
-      '21 Dec (Sun) 2100-2330hrs'];
+      '21 Dec (Sun) 1830-2100hrs'];
 
     var day;
     $rootScope.tickets = [];
-    for(var i=0; i<10; i++) {console.log(i);
+    for(var i=0; i<10; i++) {
       if(i<2) {
-        console.log('Day 1');
         day='Day 1';
       } else if(i>1&&i<6) {
         day='Day 2';

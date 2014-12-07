@@ -3,6 +3,16 @@
     <div class="col-xs-12 col-sm-12 hidden-md hidden-lg well well-sm">
       <h4>Get tickets!</h4>
       <p>Like what you see? Support the local musicians and their selfless effort to raise awareness for Mental Health illness in Singapore. More importantly, all proceeds from the ticket sales goes to Singapore Association for Mental Health. So make a date with us!</p>
+      <div class="alert alert-success fadein" ng-show="param.s && param.c">
+        <h4>
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x text-success"></i>
+            <i class="fa fa-thumbs-o-up fa-stack-1x fa-inverse"></i>
+          </span>
+          Thank you for your support.
+        </h4>
+        <p>Your transaction has been completed and a receipt for your purchase has been emailed to you. You may log in to your account at <a href="http://www.paypal.com/sg" target="_blank">www.paypal.com/sg</a> to view details of this transaction.</p>
+      </div>
       <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
       	<h2 style="border-radius:50%; color: #FFF; height:60px; width:60px; padding-top:15px" ng-style="stepOne">1</h2>
       </div>
@@ -12,143 +22,11 @@
       <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
       	<h2 style="border-radius:50%; color: #FFF; height:60px; width:60px; padding-top:15px" ng-style="stepThree">3</h2>
       </div>
-      <form name="ticketForm" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" ng-init="submit=0" ng-submit="submit=1" novalidate>
-        <div ng-show="showOne">
-        	<h3>Choose your Session</h3>
-          <select name="session" class="form-control" ng-model="selectedSession" ng-options="session.name group by session.day for session in tickets" required></select>
-          <br><br><br>
-        </div>
-        <div ng-show="showTwo">
-        	<h3>Choose your Seats</h3>
-          <table class="table table-condensed table-striped">
-            <thead>
-              <th>Time</th>
-              <th>Programme</th>
-              <th>Seats Left</th>
-            </thead>
-            <tr>
-              <td class="col-xs-4 col-sm-4">{{selectedSession.time}}</td>
-              <td class="col-xs-4 col-sm-4">{{selectedSession.name}}</td>
-              <td class="col-xs-4 col-sm-4">Seat: <strong>{{selectedSession.seat}}</strong><br>
-                Bean Bags: <strong>{{selectedSession.bean}}</strong><br>
-                Table: <strong>{{selectedSession.table}}</strong></td>
-            </tr>
-          </table>
-        	<div class="form-group">
-            <label class="control-label">Type</label>
-            <select class="form-control" name="type" ng-model="type" ng-change="selectType()" required>
-              <option value="stand" ng-if="selectedSession.stand!==0">$10 - Standing</option>
-              <option value="stand" ng-if="selectedSession.stand===0" ng-disabled="selectedSession.stand===0">$10 (Sold Out) - Standing</option>
-              <option value="seat" ng-if="selectedSession.seat!==0">$15 - Individual Seats</option>
-              <option value="seat" ng-if="selectedSession.seat===0" ng-disabled="selectedSession.seat===0">$15 (Sold Out) - Individual Seats</option>
-              <option value="bean" ng-if="selectedSession.bean!==0">$50 - Pair of Bean Bag Seats (two complimentary drinks)</option>
-              <option value="bean" ng-if="selectedSession.bean===0" ng-disabled="selectedSession.bean===0">$50 (Sold Out) - Pair of Bean Bag Seats (two complimentary drinks)</option>
-              <option value="table" ng-if="selectedSession.table!==0">$150 - Table for 5 (one complimentary drink each)</option>
-              <option value="table" ng-if="selectedSession.table===0" ng-disabled="selectedSession.table===0">$150 (Sold Out) - Table for 5 (one complimentary drink each)</option>
-	        	</select>
-	        </div>
-	        <div class="form-group" ng-if="type">
-            <label class="control-label">Quantity</label>
-            <input type="number" name="ticketQuantity" class="form-control" min="1" max="{{quantityMax}}" ng-model="quantity" ng-change="quantityChange(quantity)" required>
-          </div>
-        </div>
-        <div ng-show="showThree">
-        	<h3>Validate your Purchase</h3>
-          <table class="table table-condensed table-striped">
-            <thead>
-              <th>Time</th>
-              <th>Programme</th>
-            </thead>
-            <tr>
-              <td>{{selectedSession.time}}</td>
-              <td>{{selectedSession.name}}</td>
-            </tr>
-          </table>
-          <br>
-        	<strong>Seat Type: {{type}} (${{seat}})</strong><br>
-          <strong>Quantity: {{quantity}}</strong><br>
-          <strong>Total: ${{total}}</strong><br><br>
-          <div class="alert alert-success fadein" ng-show="submit"><img src="images/tiny-loading.gif" width="20"> Awesome! Allow me to bring you to Paypal.</div>
-        </div>
-        <div class="form-group">
-          <a href="" class="btn btn-default pull-left" ng-show="back" ng-click="clickBack()" ng-disabled="submit">back</a>
-          <a href="" class="btn btn-warning pull-right" ng-show="showOne" ng-click="clickOne()" ng-disabled="ticketForm.session.$invalid">next</a>
-          <a href="" class="btn btn-warning pull-right" ng-show="showTwo" ng-click="clickTwo()" ng-disabled="ticketForm.type.$invalid || ticketForm.ticketQuantity.$invalid">next</a>
-          <input type="hidden" name="cmd" value="_xclick">
-          <input type="hidden" name="business" value="ngmunyong-facilitator@yahoo.com">
-          <input type="hidden" name="currency_code" value="SGD">
-          <input type="hidden" name="item_name" value="{{item_name}}">
-          <input type="hidden" name="amount" value="{{seat}}">
-          <input type="hidden" name="item_number" value="{{type}}">
-          <input type="hidden" name="quantity" value="{{quantity}}">
-          <input type="hidden" name="no_shipping" value="1">
-          <input type="hidden" name="return" value="http://loveactionproject.com/#/project/musicforthemind">
-          <input type="hidden" name="cancel_return" value="http://loveactionproject.com/#/project/musicforthemind">
-          <input type="hidden" name="cbt" value="Back to Love Action Project">
-          <input type="submit" name="submit" value="Support" class="btn btn-success pull-right" ng-show="showThree" ng-disabled="submit || quantity<1">
-        </div>
-      </form>
-    </div>
-
-  <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 project">
-    <h2>{{project.name}}</h2>
-    <p class="by"><a href="#/user/{{project.uid}}"><small>{{project.createdBy}}</small></a></p>
-
-    <i class="fa fa-picture-o fa-5x" ng-hide="project.image"></i>
-    <img ng-show="project.image" src="{{project.image}}"  alt="{{project.name}}"> 
-    <h4>{{project.spill}}</h4>
-    <br>
-    <div class="container">
-      <div class="row col-xs-12 col-sm-12 col-md-7 col-lg-7" ng-bind-html="project.description"></div>
-    </div>
-    
-    <div class="well well-lg" ng-init="more=5">
-      <h3>Comments</h3>
-      <div class="well well-lg well-white">
-        <div class="row comments fadein" ng-repeat="comment in result = (project.comments | orderObjectBy:date:true)" ng-hide="$index > more">
-          <div class="col-md-12">
-            <p>{{ comment.text }}</p>
-            <small class="text-muted pull-left" am-time-ago="comment.date"></small>
-            <small class="text-muted pull-right">posted by <a href="#/user/{{comment.uid}}">{{comment.username}}</a> 
-              <span ng-show="signedIn() && comment.uid === uid">&nbsp - &nbsp
-                <a href ng-click="removeComment(comment)">delete comment</a>
-              </span>
-            </small>
-          </div>
-        </div>
-        <div class="row text-center text-muted" ng-show="more < result.length-1">
-          - &nbsp <a href class="decoration-none" ng-click="more=more+10">more</a> &nbsp -
-        </div>
-      </div>
-      <div ng-hide="signedIn()">
-        <h4>Sign in to post a comment</h4>
-        <a href class="btn btn-sm btn-primary" ng-click="fbLogin()"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
-      </div>
-       
-      <form ng-show="signedIn()">
-        <textarea ng-model="comment.text" placeholder="Post a Comment" class="form-control"></textarea><br />
-        <input type="submit" ng-click="addComment()" value="Post Comment" class="btn btn-primary" />
-      </form>
-    </div>
-      
-    </div>
-    <div class="hidden-xs hidden-sm col-md-4 col-lg-4" style="position: absolute; top: 12%; right: 5%; z-index: 10;">
-      <div class="well well-sm">
-        <h4>Get tickets!</h4>
-      <p>Like what you see? Support the local musicians and their selfless effort to raise awareness for Mental Health illness in Singapore. More importantly, all proceeds from the ticket sales goes to Singapore Association for Mental Health. So make a date with us!</p>
-      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
-        <h2 style="border-radius:50%; color: #FFF; height:60px; width:60px; padding-top:15px" ng-style="stepOne">1</h2>
-      </div>
-      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
-        <h2 style="border-radius:50%; color: #FFF; height:60px; width:60px; padding-top:15px" ng-style="stepTwo">2</h2>
-      </div>
-      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
-        <h2 style="border-radius:50%; color: #FFF; height:60px; width:60px; padding-top:15px" ng-style="stepThree">3</h2>
-      </div>
-      <form name="ticketForm" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" ng-init="submit=0" ng-submit="submit=1" novalidate>
+      <form name="ticketForm" action="https://www.paypal.com/cgi-bin/webscr" method="post" ng-init="submit=0" ng-submit="submit=1" novalidate>
         <div ng-show="showOne">
           <h3>Choose your Session</h3>
           <select name="session" class="form-control" ng-model="selectedSession" ng-options="session.name group by session.day for session in tickets" required></select>
+          <div class="alert alert-warning fadein" ng-show="selectedSession.name==='Rubberband & Mr Sufyan (Not for Sale)'"><i class="fa fa-exclamation-triangle"></i> Sorry! Tickets for this session is not open for sale.</div>
           <br><br><br>
         </div>
         <div ng-show="showTwo">
@@ -205,17 +83,159 @@
         </div>
         <div class="form-group">
           <a href="" class="btn btn-default pull-left" ng-show="back" ng-click="clickBack()" ng-disabled="submit">back</a>
-          <a href="" class="btn btn-warning pull-right" ng-show="showOne" ng-click="clickOne()" ng-disabled="ticketForm.session.$invalid">next</a>
+          <a href="" class="btn btn-warning pull-right" ng-show="showOne" ng-click="clickOne()" ng-disabled="ticketForm.session.$invalid || selectedSession.name==='Rubberband & Mr Sufyan (Not for Sale)'">next</a>
           <a href="" class="btn btn-warning pull-right" ng-show="showTwo" ng-click="clickTwo()" ng-disabled="ticketForm.type.$invalid || ticketForm.ticketQuantity.$invalid">next</a>
           <input type="hidden" name="cmd" value="_xclick">
-          <input type="hidden" name="business" value="ngmunyong-facilitator@yahoo.com">
+          <input type="hidden" name="business" value="musicforthemind@loveactionproject.com">
           <input type="hidden" name="currency_code" value="SGD">
           <input type="hidden" name="item_name" value="{{item_name}}">
           <input type="hidden" name="amount" value="{{seat}}">
           <input type="hidden" name="item_number" value="{{type}}">
           <input type="hidden" name="quantity" value="{{quantity}}">
           <input type="hidden" name="no_shipping" value="1">
-          <input type="hidden" name="return" value="http://loveactionproject.com/#/project/musicforthemind">
+          <input type="hidden" name="cancel_return" value="http://loveactionproject.com/#/project/musicforthemind">
+          <input type="hidden" name="cbt" value="Back to Love Action Project">
+          <input type="submit" name="submit" value="Support" class="btn btn-success pull-right" ng-show="showThree" ng-disabled="submit || quantity<1">
+        </div>
+      </form>      
+    </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 project">
+    <h2>{{project.name}}</h2>
+    <p class="by"><a href="#/user/{{project.uid}}"><small>{{project.createdBy}}</small></a></p>
+
+    <i class="fa fa-picture-o fa-5x" ng-hide="project.image"></i>
+    <img ng-show="project.image" src="{{project.image}}"  alt="{{project.name}}"> 
+    <h4>{{project.spill}}</h4>
+    <br>
+    <div class="container">
+      <div class="row col-xs-12 col-sm-12 col-md-7 col-lg-7" ng-bind-html="project.description"></div>
+    </div>
+    
+    <div class="well well-lg" ng-init="more=5">
+      <h3>Comments</h3>
+      <div class="well well-lg well-white">
+        <div class="row comments fadein" ng-repeat="comment in result = (project.comments | orderObjectBy:date:true)" ng-hide="$index > more">
+          <div class="col-md-12">
+            <p>{{ comment.text }}</p>
+            <small class="text-muted pull-left" am-time-ago="comment.date"></small>
+            <small class="text-muted pull-right">posted by <a href="#/user/{{comment.uid}}">{{comment.username}}</a> 
+              <span ng-show="signedIn() && comment.uid === uid">&nbsp - &nbsp
+                <a href ng-click="removeComment(comment)">delete comment</a>
+              </span>
+            </small>
+          </div>
+        </div>
+        <div class="row text-center text-muted" ng-show="more < result.length-1">
+          - &nbsp <a href class="decoration-none" ng-click="more=more+10">more</a> &nbsp -
+        </div>
+      </div>
+      <div ng-hide="signedIn()">
+        <h4>Sign in to post a comment</h4>
+        <a href class="btn btn-sm btn-primary" ng-click="fbLogin()"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
+      </div>
+       
+      <form ng-show="signedIn()">
+        <textarea ng-model="comment.text" placeholder="Post a Comment" class="form-control"></textarea><br />
+        <input type="submit" ng-click="addComment()" value="Post Comment" class="btn btn-primary" />
+      </form>
+    </div>
+      
+    </div>
+    <div class="hidden-xs hidden-sm col-md-4 col-lg-4" style="position: absolute; top: 12%; right: 5%; z-index: 10;">
+      <div class="well well-sm">
+        <h4>Get tickets!</h4>
+      <p>Like what you see? Support the local musicians and their selfless effort to raise awareness for Mental Health illness in Singapore. More importantly, all proceeds from the ticket sales goes to Singapore Association for Mental Health. So make a date with us!</p>
+      <div class="alert alert-success fadein" ng-show="param.s && param.c">
+        <h4>
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x text-success"></i>
+            <i class="fa fa-thumbs-o-up fa-stack-1x fa-inverse"></i>
+          </span>
+          Thank you for your support.
+        </h4>
+        <p>Your transaction has been completed and a receipt for your purchase has been emailed to you. You may log in to your account at <a href="http://www.paypal.com/sg" target="_blank">www.paypal.com/sg</a> to view details of this transaction.</p>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+        <h2 style="border-radius:50%; color: #FFF; height:60px; width:60px; padding-top:15px" ng-style="stepOne">1</h2>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+        <h2 style="border-radius:50%; color: #FFF; height:60px; width:60px; padding-top:15px" ng-style="stepTwo">2</h2>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+        <h2 style="border-radius:50%; color: #FFF; height:60px; width:60px; padding-top:15px" ng-style="stepThree">3</h2>
+      </div>
+      <form name="ticketForm" action="https://www.paypal.com/cgi-bin/webscr" method="post" ng-init="submit=0" ng-submit="submit=1" novalidate>
+        <div ng-show="showOne">
+          <h3>Choose your Session</h3>
+          <select name="session" class="form-control" ng-model="selectedSession" ng-options="session.name group by session.day for session in tickets" required></select>
+          <div class="alert alert-warning fadein" ng-show="selectedSession.name==='Rubberband & Mr Sufyan (Not for Sale)'"><i class="fa fa-exclamation-triangle"></i> Sorry! Tickets for this session is not open for sale.</div>
+          <br><br><br>
+        </div>
+        <div ng-show="showTwo">
+          <h3>Choose your Seats</h3>
+          <table class="table table-condensed table-striped">
+            <thead>
+              <th>Time</th>
+              <th>Programme</th>
+              <th>Seats Left</th>
+            </thead>
+            <tr>
+              <td>{{selectedSession.time}}</td>
+              <td>{{selectedSession.name}}</td>
+              <td>Seat: <strong>{{selectedSession.seat}}</strong><br>
+                Bean Bags: <strong>{{selectedSession.bean}}</strong><br>
+                Table: <strong>{{selectedSession.table}}</strong></td>
+            </tr>
+          </table>
+          <div class="form-group">
+            <label class="control-label">Type</label>
+            <select class="form-control" name="type" ng-model="type" ng-change="selectType()" required>
+              <option value="stand" ng-if="selectedSession.stand!==0">$10 - Standing</option>
+              <option value="stand" ng-if="selectedSession.stand===0" ng-disabled="selectedSession.stand===0">$10 (Sold Out) - Standing</option>
+              <option value="seat" ng-if="selectedSession.seat!==0">$15 - Individual Seats</option>
+              <option value="seat" ng-if="selectedSession.seat===0" ng-disabled="selectedSession.seat===0">$15 (Sold Out) - Individual Seats</option>
+              <option value="bean" ng-if="selectedSession.bean!==0">$50 - Pair of Bean Bag Seats (two complimentary drinks)</option>
+              <option value="bean" ng-if="selectedSession.bean===0" ng-disabled="selectedSession.bean===0">$50 (Sold Out) - Pair of Bean Bag Seats (two complimentary drinks)</option>
+              <option value="table" ng-if="selectedSession.table!==0">$150 - Table for 5 (one complimentary drink each)</option>
+              <option value="table" ng-if="selectedSession.table===0" ng-disabled="selectedSession.table===0">$150 (Sold Out) - Table for 5 (one complimentary drink each)</option>
+            </select>
+          </div>
+          <div class="form-group" ng-if="type">
+            <label class="control-label">Quantity</label>
+            <input type="number" name="ticketQuantity" class="form-control" min="1" max="{{quantityMax}}" ng-model="quantity" ng-change="quantityChange(quantity)" required>
+          </div>
+        </div>
+        <div ng-show="showThree">
+          <h3>Validate your Purchase</h3>
+          <table class="table table-condensed table-striped">
+            <thead>
+              <th>Time</th>
+              <th>Programme</th>
+            </thead>
+            <tr>
+              <td>{{selectedSession.time}}</td>
+              <td>{{selectedSession.name}}</td>
+            </tr>
+          </table>
+          <br>
+          <strong>Seat Type: {{type}} (${{seat}})</strong><br>
+          <strong>Quantity: {{quantity}}</strong><br>
+          <strong>Total: ${{total}}</strong><br><br>
+          <div class="alert alert-success fadein" ng-show="submit"><img src="images/tiny-loading.gif" width="20"> Awesome! Allow me to bring you to Paypal.</div>
+        </div>
+        <div class="form-group">
+          <a href="" class="btn btn-default pull-left" ng-show="back" ng-click="clickBack()" ng-disabled="submit">back</a>
+          <a href="" class="btn btn-warning pull-right" ng-show="showOne" ng-click="clickOne()" ng-disabled="ticketForm.session.$invalid || selectedSession.name==='Rubberband & Mr Sufyan (Not for Sale)'">next</a>
+          <a href="" class="btn btn-warning pull-right" ng-show="showTwo" ng-click="clickTwo()" ng-disabled="ticketForm.type.$invalid || ticketForm.ticketQuantity.$invalid">next</a>
+          <input type="hidden" name="cmd" value="_xclick">
+          <input type="hidden" name="business" value="musicforthemind@loveactionproject.com">
+          <input type="hidden" name="currency_code" value="SGD">
+          <input type="hidden" name="item_name" value="{{item_name}}">
+          <input type="hidden" name="amount" value="{{seat}}">
+          <input type="hidden" name="item_number" value="{{type}}">
+          <input type="hidden" name="quantity" value="{{quantity}}">
+          <input type="hidden" name="no_shipping" value="1">
           <input type="hidden" name="cancel_return" value="http://loveactionproject.com/#/project/musicforthemind">
           <input type="hidden" name="cbt" value="Back to Love Action Project">
           <input type="submit" name="submit" value="Support" class="btn btn-success pull-right" ng-show="showThree" ng-disabled="submit || quantity<1">

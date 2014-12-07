@@ -11,14 +11,16 @@ define(['angular'], function (angular) {
 		};
 
 		$rootScope.$watch('currentUser', function() {
-			if (!$rootScope.currentUser.hasOwnProperty('about') && $scope.opened === false) {
-				$modal.open({
-					templateUrl: 'about.html',
-					controller: ModalInstanceCtrl,
-					size: 'md',
-					backdrop: 'static'
-				});
-				$scope.opened = true;
+			if($rootScope.currentUser !== undefined) {
+				if (!$rootScope.currentUser.hasOwnProperty('about') && $scope.opened === false) {
+					$modal.open({
+						templateUrl: 'about.html',
+						controller: ModalInstanceCtrl,
+						size: 'md',
+						backdrop: 'static'
+					});
+					$scope.opened = true;
+				}
 			}
 		});
 

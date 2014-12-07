@@ -3,6 +3,7 @@ define(['angular'], function (angular) {
 
   angular.module('lapApp.controllers.MusicforthemindCtrl', []).controller('MusicforthemindCtrl', function ($window, $rootScope, $scope, $modal, $location, Func, User, Auth, Project, Ticket) {
     $scope.project = Project.find('musicforthemind');
+    $scope.param = $location.search();
     $scope.transactions = Ticket.all();
 
     var param = $location.search();
@@ -44,16 +45,16 @@ define(['angular'], function (angular) {
       
       switch($scope.type) {
         case 'stand':
-          $scope.seat = 10;
+          $scope.seat = 10; //10
           break;
         case 'seat':
-          $scope.seat = 15;
+          $scope.seat = 15;   //15
           break;
         case 'bean':
-          $scope.seat = 50;
+          $scope.seat = 50;   //50
           break;
         case 'table':
-          $scope.seat = 150;
+          $scope.seat = 150;  //150
           break;
       }
 
