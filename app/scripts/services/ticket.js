@@ -17,14 +17,14 @@ define(['angular'], function (angular) {
     var tickets = $firebase(ref);
 
     var names = ['Rubberband & Mr Sufyan (Not for Sale)',
-      'Jamie Wong (Noise 2012 Winner) & Artiste/Band 4',
-      'Artiste/Band 5 & Ruth and Fatt',
-      'Paraprhase & Artiste/Band 8',
-      'Artiste/Band 9 & Mode Rage',
-      'Artiste/Band 11 & Artiste/Band 12',
-      'Tabula and Blues Band from Crazy Elephants',
-      'Jack and Rai & Afterhours',
-      'Artiste/Band 17 & Trisno Acoustic Duo'];
+      'Jamie Wong (Noise 2012 Winner) & Artiste/Band 1',
+      'Singapore Char Siew Bao & Ruth and Fatt',
+      'Artiste/Band 2 & Jane Doe',
+      'Artiste/Band 3 & Mode Rage',
+      'Artiste/Band 4 & Daniel Purnomo feat. local singer/actress Gillian Tan',
+      'Tabula & Jack & Rai',
+      'Shili and Adi & Afterhours',
+      'Crazy Notes & Trisno Ishak & Joey Zaza from Trisno Trio'];
     var time = ['19 Dec (Fri) 1945-2200hrs',
       '19 Dec (Fri) 2200-0030hrs',
       '20 Dec (Sat) 1400-1600hrs',

@@ -48,8 +48,6 @@
           <div class="form-group">
             <label class="control-label">Type</label>
             <select class="form-control" name="type" ng-model="type" ng-change="selectType()" required>
-              <option value="stand" ng-if="selectedSession.stand!==0">$10 - Standing</option>
-              <option value="stand" ng-if="selectedSession.stand===0" ng-disabled="selectedSession.stand===0">$10 (Sold Out) - Standing</option>
               <option value="seat" ng-if="selectedSession.seat!==0">$15 - Individual Seats</option>
               <option value="seat" ng-if="selectedSession.seat===0" ng-disabled="selectedSession.seat===0">$15 (Sold Out) - Individual Seats</option>
               <option value="bean" ng-if="selectedSession.bean!==0">$50 - Pair of Bean Bag Seats (two complimentary drinks)</option>
@@ -83,7 +81,7 @@
         </div>
         <div class="form-group">
           <a href="" class="btn btn-default pull-left" ng-show="back" ng-click="clickBack()" ng-disabled="submit">back</a>
-          <a href="" class="btn btn-warning pull-right" ng-show="showOne" ng-click="clickOne()" ng-disabled="ticketForm.session.$invalid || selectedSession.name==='Rubberband & Mr Sufyan (Not for Sale)'">next</a>
+          <a href="" class="btn btn-warning pull-right" ng-show="showOne" ng-click="clickOne()" ng-disabled="selectedSession.name==null || selectedSession.name==='Rubberband & Mr Sufyan (Not for Sale)'">next</a>
           <a href="" class="btn btn-warning pull-right" ng-show="showTwo" ng-click="clickTwo()" ng-disabled="ticketForm.type.$invalid || ticketForm.ticketQuantity.$invalid">next</a>
           <input type="hidden" name="cmd" value="_xclick">
           <input type="hidden" name="business" value="musicforthemind@loveactionproject.com">
@@ -191,8 +189,6 @@
           <div class="form-group">
             <label class="control-label">Type</label>
             <select class="form-control" name="type" ng-model="type" ng-change="selectType()" required>
-              <option value="stand" ng-if="selectedSession.stand!==0">$10 - Standing</option>
-              <option value="stand" ng-if="selectedSession.stand===0" ng-disabled="selectedSession.stand===0">$10 (Sold Out) - Standing</option>
               <option value="seat" ng-if="selectedSession.seat!==0">$15 - Individual Seats</option>
               <option value="seat" ng-if="selectedSession.seat===0" ng-disabled="selectedSession.seat===0">$15 (Sold Out) - Individual Seats</option>
               <option value="bean" ng-if="selectedSession.bean!==0">$50 - Pair of Bean Bag Seats (two complimentary drinks)</option>
@@ -226,7 +222,7 @@
         </div>
         <div class="form-group">
           <a href="" class="btn btn-default pull-left" ng-show="back" ng-click="clickBack()" ng-disabled="submit">back</a>
-          <a href="" class="btn btn-warning pull-right" ng-show="showOne" ng-click="clickOne()" ng-disabled="ticketForm.session.$invalid || selectedSession.name==='Rubberband & Mr Sufyan (Not for Sale)'">next</a>
+          <a href="" class="btn btn-warning pull-right" ng-show="showOne" ng-click="clickOne()" ng-disabled="selectedSession.name==null || selectedSession.name==='Rubberband & Mr Sufyan (Not for Sale)'">next</a>
           <a href="" class="btn btn-warning pull-right" ng-show="showTwo" ng-click="clickTwo()" ng-disabled="ticketForm.type.$invalid || ticketForm.ticketQuantity.$invalid">next</a>
           <input type="hidden" name="cmd" value="_xclick">
           <input type="hidden" name="business" value="musicforthemind@loveactionproject.com">
