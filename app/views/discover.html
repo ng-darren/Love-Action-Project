@@ -10,7 +10,7 @@
   </p>
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="columns">
-      <div class="pin repeated-item" ng-repeat="p in projects | makeArray | filter: query">
+      <div class="pin repeated-item" ng-repeat="p in projects | makeArray | filter: query | orderBy: date">
         <div class="card">
           <a href="#/project/{{p.id}}" class="text-center">
             <h1 ng-hide="p.image"><i class="fa fa-picture-o fa-5x"></i></h1>

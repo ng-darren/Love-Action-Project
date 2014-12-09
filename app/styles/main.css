@@ -6,7 +6,7 @@ hr { margin: 80px 0; }
 form { padding: 20px; }
 input:checked + label { font-weight: 600; }
 @media all and (max-width: 480px) {
-  a.navbar-brand img { max-width: 190px; }
+  a.navbar-brand img { max-width: 150px; }
 }
 .main { margin-top: 49px; }
 .well { background-color: #F8F8F8; overflow: hidden; }

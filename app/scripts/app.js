@@ -40,10 +40,10 @@ define(['angular', 'controllers/main', 'controllers/nav', 'controllers/discover'
     'textAngular',
     ])
   .constant('FIREBASE_URL', 'https://loveactionproject.firebaseIO.com/')
-  .config(function ($stateProvider, $uiViewScrollProvider) {
+  .config(function ($stateProvider, $locationProvider, $uiViewScrollProvider) {
     $uiViewScrollProvider.useAnchorScroll();
     $stateProvider.state('main',{
-      url: '',
+      url: '/',
       templateUrl: 'views/main.html',
       controller:'MainCtrl'
     })
@@ -139,6 +139,10 @@ define(['angular', 'controllers/main', 'controllers/nav', 'controllers/discover'
       templateUrl: 'views/admin.html',
       controller: 'AdminCtrl'
     });
+
+    // enable HTML5 Mode for SEO
+    // $locationProvider.html5Mode(true);
+    // $locationProvider.html5Mode(true).hashPrefix('!');
   })
   .config(function (ezfbProvider) {
     ezfbProvider.setInitParams({

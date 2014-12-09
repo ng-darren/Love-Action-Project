@@ -17,23 +17,23 @@ define(['angular'], function (angular) {
     var tickets = $firebase(ref);
 
     var names = ['Rubberband & Mr Sufyan (Not for Sale)',
-      'Jamie Wong (Noise 2012 Winner) & Artiste/Band 1',
+      'Jamie Wong (Noise 2012 Winner) & Daniel Purnomo feat. local singer/actress Gillian Tan',
       'Singapore Char Siew Bao & Ruth and Fatt',
-      'Artiste/Band 2 & Jane Doe',
-      'Artiste/Band 3 & Mode Rage',
-      'Artiste/Band 4 & Daniel Purnomo feat. local singer/actress Gillian Tan',
-      'Tabula & Jack & Rai',
+      'Paraphrase & Jane Doe',
+      'Love Me Knot & Moderage',
+      'TBC',
+      'Tabula & Jack and Rai',
       'Shili and Adi & Afterhours',
-      'Crazy Notes & Trisno Ishak & Joey Zaza from Trisno Trio'];
+      'Crazy Notes & Trisno'];
     var time = ['19 Dec (Fri) 1945-2200hrs',
-      '19 Dec (Fri) 2200-0030hrs',
+      '19 Dec (Fri) 2200-0000hrs',
       '20 Dec (Sat) 1400-1600hrs',
       '20 Dec (Sat) 1600-1830hrs',
-      '21 Dec (Sat) 1830-2100hrs',
-      '21 Dec (Sat) 2100-2330hrs',
+      '20 Dec (Sat) 1900-2100hrs',
+      '20 Dec (Sat) 2100-2330hrs',
       '21 Dec (Sun) 1400-1600hrs',
-      '21 Dec (Sun) 1600-1830hrs',
-      '21 Dec (Sun) 1830-2100hrs'];
+      '21 Dec (Sun) 1630-1830hrs',
+      '21 Dec (Sun) 1900-2100hrs'];
 
     var day;
     $rootScope.tickets = [];
