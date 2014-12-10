@@ -93,10 +93,6 @@ define(['angular'], function (angular) {
       $scope.quantity = q;
     };
 
-    $scope.picture = function(num) {
-      $scope.mousePic = $rootScope.tickets[num].pic;
-    };
-
     $scope.$watch('project.deadline', function() {
       $scope.disable = $scope.project.deadline < Date.now();
 
