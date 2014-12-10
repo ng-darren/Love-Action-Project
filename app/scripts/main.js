@@ -19,7 +19,8 @@ require.config({
     'textAngular-sanitize': '../bower_components/textAngular/dist/textAngular-sanitize.min',
     textAngular: '../bower_components/textAngular/dist/textAngular.min',
     jquery: '../bower_components/jquery/dist/jquery',
-    bootstrap: '../bower_components/bootstrap/dist/js/bootstrap'
+    bootstrap: '../bower_components/bootstrap/dist/js/bootstrap',
+    'angular-scenario': '../bower_components/angular-scenario/angular-scenario'
   },
   shim: {
     angular: {
