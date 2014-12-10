@@ -17,12 +17,12 @@ define(['angular'], function (angular) {
     var tickets = $firebase(ref);
 
     var names = ['Session 1 - Rubberband & Mr Sufyan (Not for Sale)',
-      'Session 2 - Jamie Wong (Noise 2012 Winner) & Daniel Purnomo feat. local singer/actress Gillian Tan',
+      'Session 2 - Jaime Wong (Noise 2012 Winner) & Daniel Purnomo feat. local singer/actress Gillian Tan',
       'Session 3 - Singapore Char Siew Bao & Ruth and Fatt',
       'Session 4 - Paraphrase & Jane Doe',
       'Session 5 - Love Me Knot & Moderage',
       'Session 6 - Tabula & Jack and Rai',
-      'Session 7 - Shili and Adi & Afterhours',
+      'Session 7 - ShiLi and Adi & Afterhours',
       'Session 8 - Crazy Notes & Trisno'];
     var time = ['19 Dec (Fri) 1945-2200hrs',
       '19 Dec (Fri) 2200-0000hrs',
