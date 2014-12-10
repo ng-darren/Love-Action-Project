@@ -43,7 +43,7 @@ define(['angular', 'controllers/main', 'controllers/nav', 'controllers/discover'
   .config(function ($stateProvider, $locationProvider, $uiViewScrollProvider) {
     $uiViewScrollProvider.useAnchorScroll();
     $stateProvider.state('main',{
-      url: '/',
+      url: '',
       templateUrl: 'views/main.html',
       controller:'MainCtrl'
     })
@@ -79,6 +79,11 @@ define(['angular', 'controllers/main', 'controllers/nav', 'controllers/discover'
     })
     .state('/musicforthemind', {
       url: '/project/musicforthemind',
+      templateUrl: 'views/musicforthemind.html',
+      controller: 'MusicforthemindCtrl'
+    })
+    .state('/musicforthemind2', {
+      url: '/musicforthemind',
       templateUrl: 'views/musicforthemind.html',
       controller: 'MusicforthemindCtrl'
     })

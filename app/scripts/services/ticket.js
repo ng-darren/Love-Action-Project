@@ -16,24 +16,23 @@ define(['angular'], function (angular) {
     var home = $firebase(homeRef);
     var tickets = $firebase(ref);
 
-    var names = ['Rubberband & Mr Sufyan (Not for Sale)',
-      'Jamie Wong (Noise 2012 Winner) & Daniel Purnomo feat. local singer/actress Gillian Tan',
-      'Singapore Char Siew Bao & Ruth and Fatt',
-      'Paraphrase & Jane Doe',
-      'Love Me Knot & Moderage',
-      'TBC',
-      'Tabula & Jack and Rai',
-      'Shili and Adi & Afterhours',
-      'Crazy Notes & Trisno'];
+    var names = ['Session 1 - Rubberband & Mr Sufyan (Not for Sale)',
+      'Session 2 - Jamie Wong (Noise 2012 Winner) & Daniel Purnomo feat. local singer/actress Gillian Tan',
+      'Session 3 - Singapore Char Siew Bao & Ruth and Fatt',
+      'Session 4 - Paraphrase & Jane Doe',
+      'Session 5 - Love Me Knot & Moderage',
+      'Session 6 - Tabula & Jack and Rai',
+      'Session 7 - Shili and Adi & Afterhours',
+      'Session 8 - Crazy Notes & Trisno'];
     var time = ['19 Dec (Fri) 1945-2200hrs',
       '19 Dec (Fri) 2200-0000hrs',
       '20 Dec (Sat) 1400-1600hrs',
       '20 Dec (Sat) 1600-1830hrs',
       '20 Dec (Sat) 1900-2100hrs',
-      '20 Dec (Sat) 2100-2330hrs',
       '21 Dec (Sun) 1400-1600hrs',
       '21 Dec (Sun) 1630-1830hrs',
       '21 Dec (Sun) 1900-2100hrs'];
+    var pic = ['s1.jpg', 's2.jpg', 's3.jpg', 's4.jpg', 's5.jpg', 's6.jpg', 's7.jpg', 's8.jpg', 's9.jpg'];
 
     var day;
     $rootScope.tickets = [];
@@ -48,6 +47,7 @@ define(['angular'], function (angular) {
       $rootScope.tickets.push({
         name: names[i],
         time: time[i],
+        pic: pic[i],
         day: day,
         bean:10,
         seat:40,
