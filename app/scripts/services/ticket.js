@@ -39,7 +39,7 @@ define(['angular'], function (angular) {
     for(var i=0; i<10; i++) {
       if(i<2) {
         day='Day 1';
-      } else if(i>1&&i<6) {
+      } else if(i>1&&i<5) {
         day='Day 2';
       } else {
         day='Day 3';
