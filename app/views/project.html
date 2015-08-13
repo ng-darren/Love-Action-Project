@@ -18,7 +18,7 @@
     <div class="container">
       <div class="row">
         <div class="pull-left volunteer-facepile" ng-repeat="v in volunteerList | orderBy:'rank'" ng-hide="!v.item.image">
-          <a href="#/user/{{v.item.uid}}" tooltip="{{v.item.username}}"><img src="{{v.item.image}}"></a>
+          <a href="#/user/{{v.item.uid}}" tooltip="{{v.item.username}}"><img src="http://graph.facebook.com/{{v.item.image}}/picture"></a>
         </div>
       </div>
     </div>
@@ -99,7 +99,7 @@
       <h5>Volunteers</h5>
       <div class="row" style="margin-left:3px">
         <div class="volunteer-facepile" ng-repeat="v in volunteerList | orderBy:'rank'" ng-hide="!v.item.image">
-          <a href="#/user/{{v.item.uid}}" tooltip="{{v.item.username}}"><img src="{{v.item.image}}"></a>
+          <a href="#/user/{{v.item.uid}}" tooltip="{{v.item.username}}"><img src="http://graph.facebook.com/{{v.item.image}}/picture"></a>
         </div>
       </div>
       

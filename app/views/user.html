@@ -3,7 +3,7 @@
     <div class="col-md-2">
       <h2>{{user.username}}</h2>
       <div ng-hide="user.data.picture.data.url"><i class="fa fa-picture-o fa-5x"></i></div>
-      <img ng-src="{{user.data.picture.data.url}}" class="img-responsive fb-picture" ng-show="user.data.picture.data.url" ng-hide="user.image"/>
+      <img ng-src="http://graph.facebook.com/{{user.data.id}}/picture" class="img-responsive fb-picture" ng-show="user.data.picture.data.url" ng-hide="user.image"/>
       <img ng-src="{{user.image}}" class="img-responsive fb-picture" ng-show="user.image"/>
     </div>
 
