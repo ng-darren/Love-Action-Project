@@ -64,7 +64,7 @@
 </section>
 
 <section style="padding: 50px 0;">
-  <div class="container">
+  <div class="container" ng-show ="upcoming.length">
     <h3>Upcoming Projects</h3>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 staffpick" ng-repeat="up in upcoming">
       <div class="col-xs-12 col-sm-12 col-md-4 col-lg-5">
@@ -115,6 +115,22 @@
           <a class="btn btn-lg btn-success btn-block btn-volunteer" ng-href="#/project/{{up.id}}">More</a>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h3>Our Partners</h3>
+    <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
+      <a href="http://www.samhealth.org.sg" target="_blank"><img src="images/samh.jpg" class="desaturate"></a>
+    </div>
+    <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
+      <a href="http://www.causesforanimals.com" target="_blank"><img src="images/cas.png" class="desaturate"></a>
+    </div>
+    <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
+      <a href="http://www.centralsingaporecdc.org.sg" target="_blank"><img src="images/ccdc.png" class="desaturate"></a>
+    </div>
+    <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
+      <a href="http://www.kwsh.org.sg" target="_blank"><img src="images/kwsh.png" class="desaturate" style="margin-top: 30px;"></a>
     </div>
   </div>
 </section>
