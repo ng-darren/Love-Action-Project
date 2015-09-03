@@ -62,7 +62,7 @@ define(['angular'], function (angular) {
           volunteer.uid = $rootScope.uid;
           volunteer.projId = projId;
           volunteer.date = Date.now();
-          volunteer.image = $rootScope.currentUser.data.picture.data.url;
+          volunteer.image = $rootScope.currentUser.data.id;
            
           projects.$child(projId).$child('volunteers').$add(volunteer).then(function () {
             var object = {};
@@ -70,7 +70,7 @@ define(['angular'], function (angular) {
             object[myVar] = projId;
             user.$child('projects').$update(object);
             var project = Project.find(projId);
-            
+
             if (project.hasOwnProperty('volunteerCount')) {
               project.volunteerCount++;
             } else {
@@ -78,7 +78,26 @@ define(['angular'], function (angular) {
             }
             
             project.percentage = project.volunteerCount / project.target * 100;
-            return projects.$child(projId).$update(project);
+
+            var updatedProject = {
+              category: project.category,
+              created: project.created,
+              createdBy: project.createdBy,
+              date: project.date,
+              deadline: project.deadline,
+              description: project.description,
+              id: project.id,
+              image: project.image,
+              location: project.location,
+              name: project.name,
+              percentage: project.percentage,
+              spill: project.spill,
+              target: project.target,
+              uid: project.uid,
+              volunteerCount: project.volunteerCount
+            }
+
+            return projects.$child(projId).$update(updatedProject);
           });
         }
       },
